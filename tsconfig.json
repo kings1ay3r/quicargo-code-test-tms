@@ -23,6 +23,9 @@
       "@app/*": [
         "src/*"
       ],
+      "@dtos/*": [
+        "src/dtos/*"
+      ],
       "@components/*": [
         "src/components/*"
       ],

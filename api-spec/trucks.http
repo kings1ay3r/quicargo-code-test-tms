@@ -1,0 +1,32 @@
+### List Trucks
+GET {{SERVERURL}}:{{PORT}}/api/trucks
+
+### Get Truck
+GET {{SERVERURL}}:{{PORT}}/api/trucks/5f7b3b3b7f3b3b3b3b3b3b3b
+
+### Create Truck
+POST {{SERVERURL}}:{{PORT}}/api/trucks
+Content-Type: application/json
+
+{
+  "name": "Truck 1",
+  "model": "Model 1",
+  "year": 2020,
+  "licensePlate": "ABC-1234",
+  "chassis": "1234567890",
+  "color": "Red",
+  "type": "Truck",
+  "status": "Active"
+}
+
+### Update Truck
+PATCH {{SERVERURL}}:{{PORT}}/api/trucks/5f7b3b3b7f3b3b3b3b3b3b3b
+Content-Type: application/json
+
+{
+  "chassis": "1234567890"
+}
+
+### Delete Truck
+DELETE {{SERVERURL}}:{{PORT}}/api/trucks/5f7b3b3b7f3b3b3b3b3b3b3b
+
