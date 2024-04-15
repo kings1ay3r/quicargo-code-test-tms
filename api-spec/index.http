@@ -1,0 +1,2 @@
+### Ping API
+GET {{SERVERURL}}:{{PORT}}/api/ping
