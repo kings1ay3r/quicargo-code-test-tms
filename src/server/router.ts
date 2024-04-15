@@ -8,6 +8,10 @@ const router = Router()
 router.get('/ping', (_, res) => {
   res.json({ ping: 'pong' })
 })
+
 router.use('/trucks', handlers.truckManagementRouter)
+router.use('/locations', handlers.locationManagementRouter)
+
 router.use(responseMiddleware, errorMiddleware)
+
 export default router
