@@ -48,7 +48,7 @@ router.patch('/:uuid', async (req: Request, res: Response, next: NextFunction): 
   try {
     res.locals.response = await locationManagementService.updateLocation(
       res.locals as RequestContext,
-      req.params.licensePlate,
+      req.params.uuid,
       req.body as UpdateLocationRequest,
     )
     return next()

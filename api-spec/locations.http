@@ -2,26 +2,26 @@
 GET {{SERVERURL}}:{{PORT}}/api/locations
 
 ### Get Location
-GET {{SERVERURL}}:{{PORT}}/api/locations/5f7b3b3b7f3b3b3b3b3b3b3b
+GET {{SERVERURL}}:{{PORT}}/api/locations/c5d618ea-8dd7-43ce-a7fd-1b6c0d14e919
 
 ### Create Location
 POST {{SERVERURL}}:{{PORT}}/api/locations
 Content-Type: application/json
 
 {
-  "name": "W1",
+  "name": "WareHouse 12",
   "lattitude": 123.456789,
   "longitude": 98.7654321
 }
 
 ### Update Location
-PATCH {{SERVERURL}}:{{PORT}}/api/locations/warehouses
+PATCH {{SERVERURL}}:{{PORT}}/api/locations/dc52a13f-9eb2-46bb-97a2-a8779e7f4b8a
 Content-Type: application/json
 
 {
-  "chassis": "1234567890"
+  "address": "Bell Haven Gardens"
 }
 
 ### Delete Location
-DELETE {{SERVERURL}}:{{PORT}}/api/locations/5f7b3b3b7f3b3b3b3b3b3b3b
+DELETE {{SERVERURL}}:{{PORT}}/api/locations/78d45082-d62f-46ff-9c0c-f11e24381ffd
 

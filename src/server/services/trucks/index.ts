@@ -6,27 +6,51 @@ export default class TruckService extends Service {
     super('TruckService')
   }
 
+  //TODO: (SanityEnhancements) Implement filters, pagination, populate hasMore
   async getTrucks(ctx: RequestContext): Promise<ListResponse<Truck>> {
     return {
-      data: [],
-      count: 0,
+      data: (
+        await this.repository.truck.find(ctx, {}, { location: { select: { uid: true } } })
+      ).map(({ id, locationId, ...resp }) => resp) as Truck[],
+      count: await this.repository.truck.count(),
       hasMore: false,
     }
   }
 
-  async getTruck(ctx: RequestContext, id: string): Promise<Truck> {
-    return { data: true }
+  async getTruck(ctx: RequestContext, uuid: string): Promise<Truck> {
+    const { id, locationId, ...resp } = await this.repository.truck.findByUid(ctx, uuid, {
+      location: { select: { uid: true } },
+    })
+    return resp
   }
 
   async createTruck(ctx: RequestContext, data: CreateTruckRequest): Promise<Truck> {
-    return { data: true } as Truck
+    const { id, locationId, ...resp } = await this.repository.truck.create(ctx, data, {
+      location: { select: { uid: true } },
+    })
+    return resp
   }
 
-  async updateTruck(ctx: RequestContext, data: UpdateTruckRequest): Promise<Truck> {
-    return { data: true } as Truck
+  async updateTruck(ctx: RequestContext, uuid: string, _data: UpdateTruckRequest): Promise<Truck> {
+    const existing = await this.repository.truck.findByUid(ctx, uuid)
+    const { locationUuid, ...data } = _data
+    if (locationUuid !== undefined) {
+      const { id: locationId } = await this.repository.location.findByUid(ctx, locationUuid)
+      data.locationId = locationId
+    }
+    const { id, locationId, ...resp } = await this.repository.truck.update(
+      ctx,
+      {
+        ...existing,
+        ...data,
+      },
+      { location: { select: { uid: true } } },
+    )
+    return { ...resp }
   }
 
-  async deleteTruck(ctx: RequestContext, id: string): Promise<boolean> {
-    return true
+  async deleteTruck(ctx: RequestContext, uuid: string): Promise<boolean> {
+    const existing = await this.repository.truck.findByUid(ctx, uuid)
+    return this.repository.truck.delete(ctx, existing.id).deletedAt !== null
   }
 }

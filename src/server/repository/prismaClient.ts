@@ -15,10 +15,12 @@ const location = {
     })
   },
 
-  async findByUid(ctx: RequestContext, uid) {
-    return prisma.location.findFirst({
+  async findByUid(ctx: RequestContext, uid: string, relations) {
+    const data = await prisma.location.findFirstOrThrow({
       where: { uid, deletedAt: null },
+      include: relations,
     })
+    return data
   },
 
   async find(ctx: RequestContext, filters, relations) {
@@ -29,14 +31,13 @@ const location = {
     })
   },
 
-  async create(ctx: RequestContext, data) {
+  async create(ctx: RequestContext, data, relations) {
     return prisma.location.create({
       data: {
-        name: 'WarehOuse 1',
-        lattitude: 123.456789,
-        longitude: 98.7654321,
-        createdBy: 'sdfds',
+        ...data,
+        createdBy: ctx.accessor?.uid,
       },
+      include: relations,
     })
   },
 
@@ -52,6 +53,10 @@ const location = {
       },
     })
   },
+
+  async count() {
+    return prisma.location.count({ where: { deletedAt: null } })
+  },
 }
 
 const truck = {
@@ -65,10 +70,12 @@ const truck = {
     })
   },
 
-  async findByUid(ctx: RequestContext, uid) {
-    return prisma.truck.findFirst({
+  async findByUid(ctx: RequestContext, uid: string, relations) {
+    const data = await prisma.truck.findFirstOrThrow({
       where: { uid, deletedAt: null },
+      include: relations,
     })
+    return data
   },
 
   async find(ctx: RequestContext, filters, relations) {
@@ -79,16 +86,17 @@ const truck = {
     })
   },
 
-  async create(ctx: RequestContext, data) {
+  async create(ctx: RequestContext, data, relations) {
     return prisma.truck.create({
       data: {
         ...data,
         createdBy: ctx.accessor.uid,
       },
+      include: relations,
     })
   },
 
-  async update(ctx: RequestContext, data) {
+  async update(ctx: RequestContext, data, relations) {
     if (!data.id) {
       throw new Error('ID Missing in update data')
     }
@@ -98,7 +106,11 @@ const truck = {
         ...data,
         createdBy: ctx.accessor.uid,
       },
+      include: relations,
     })
+  },
+  async count() {
+    return prisma.truck.count({ where: { deletedAt: null } })
   },
 }
 
