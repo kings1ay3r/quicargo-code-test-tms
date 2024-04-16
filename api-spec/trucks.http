@@ -13,10 +13,14 @@ Content-Type: application/json
   "model": "Model 1",
   "year": 2020,
   "licensePlate": "ABC-1234",
-  "chassis": "1234567890",
-  "color": "Red",
-  "type": "Truck",
-  "status": "Active"
+  "make": "Make 1",
+  "brand": "Brand 1",
+  "capacity": 1000,
+  "location": {
+    "connect": {
+      "id": 1
+    }
+  }
 }
 
 ### Update Truck

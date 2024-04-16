@@ -17,8 +17,7 @@ function errorMiddleware(
     {
       path: req.path,
       req: { query: req.query, params: req.params, body: req.body },
-      err: error.message,
-      errStack: error.stack,
+      err: error,
     },
   )
   const respMessage = {
