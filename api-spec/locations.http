@@ -9,6 +9,9 @@ POST {{SERVERURL}}:{{PORT}}/api/locations
 Content-Type: application/json
 
 {
+  "name": "W1",
+  "lattitude": 123.456789,
+  "longitude": 98.7654321
 }
 
 ### Update Location
