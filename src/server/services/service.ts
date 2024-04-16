@@ -1,4 +1,5 @@
-import logger from '@app/server/common/logger.js'
+import logger from '@app/server/common/logger'
+import prisma from '@app/server/repository/prismaClient'
 
 export class Service {
   logTag: string
@@ -12,7 +13,15 @@ export class Service {
     error: (...args) => logger.error(this.logTag, ...args),
   }
 
-  constructor(serviceName: string) {
+  // TODO: (SanityEnhancements) Annotate type for prisma
+  repository: Record<string, any>
+
+  constructor(serviceName: string, repositoryName: string) {
     this.logTag = serviceName
+    this.repository = prisma
+    if (!this.repository) {
+      this.logger.error('Repository not found')
+      throw new Error('Repository not found')
+    }
   }
 }

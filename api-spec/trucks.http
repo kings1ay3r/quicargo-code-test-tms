@@ -2,7 +2,7 @@
 GET {{SERVERURL}}:{{PORT}}/api/trucks
 
 ### Get Truck
-GET {{SERVERURL}}:{{PORT}}/api/trucks/5f7b3b3b7f3b3b3b3b3b3b3b
+GET {{SERVERURL}}:{{PORT}}/api/trucks/b2b46285-5f2e-4843-8237-44cc2054e2d5
 
 ### Create Truck
 POST {{SERVERURL}}:{{PORT}}/api/trucks
@@ -24,13 +24,14 @@ Content-Type: application/json
 }
 
 ### Update Truck
-PATCH {{SERVERURL}}:{{PORT}}/api/trucks/5f7b3b3b7f3b3b3b3b3b3b3b
+PATCH {{SERVERURL}}:{{PORT}}/api/trucks/038f6b3e-aacd-41a7-8a3d-dc7477a28ce3
 Content-Type: application/json
 
 {
-  "chassis": "1234567890"
+  "brand": "Brand 25",
+  "locationUuid": "1df89b57-853d-4aee-933f-25cecacd3323"
 }
 
 ### Delete Truck
-DELETE {{SERVERURL}}:{{PORT}}/api/trucks/5f7b3b3b7f3b3b3b3b3b3b3b
+DELETE {{SERVERURL}}:{{PORT}}/api/trucks/bac41b33-d076-4ade-ad08-8682123c40cd
 
