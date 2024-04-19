@@ -6,6 +6,17 @@ const prisma = new PrismaClient()
 // Custom repository methods
 const location = {
   async delete(ctx: RequestContext, id) {
+    const trucksAtLocation = await prisma.truck.count({
+      where: {
+        location: {
+          id,
+        },
+        deletedAt: null,
+      },
+    })
+    if (trucksAtLocation > 0) {
+      throw new Error('unable to delete location with trucks assigned')
+    }
     return prisma.location.update({
       where: { id, deletedAt: null },
       data: {

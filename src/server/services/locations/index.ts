@@ -55,6 +55,6 @@ export default class LocationService extends Service {
 
   async deleteLocation(ctx: RequestContext, uuid: string): Promise<boolean> {
     const existing = await this.repository.location.findByUid(ctx, uuid)
-    return this.repository.location.delete(ctx, existing.id).deletedAt !== null
+    return (await this.repository.location.delete(ctx, existing.id)).deleteAt !== null
   }
 }
