@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response, Router } from 'express'
 import TruckManagementService from '@app/server/services/trucks'
-import { CreateTruckRequest, RequestContext, UpdateTruckRequest } from '@dtos/'
+import { CreateTruckRequest, RequestContext, UpdateTruckRequest } from '@app/dtos'
+import validate from '@app/server/common/validator'
 
 const truckManagementService = new TruckManagementService()
 
@@ -9,6 +10,8 @@ const router: Router = Router()
 // Handler to create a new truck
 router.post('/', async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
+    const validatedPayload = await validate(CreateTruckRequest, req)
+    return res.status(200).send({ validatedPayload })
     res.locals.response = await truckManagementService.createTruck(
       res.locals as RequestContext,
       { ...req.body } as CreateTruckRequest,

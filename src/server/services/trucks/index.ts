@@ -24,7 +24,13 @@ export default class TruckService extends Service {
     return resp
   }
 
-  async createTruck(ctx: RequestContext, data: CreateTruckRequest): Promise<Truck> {
+  async createTruck(ctx: RequestContext, _data: CreateTruckRequest): Promise<Truck> {
+    const { locationUuid, ...data } = _data
+    if (locationUuid !== undefined) {
+      const { id: locationId } = await this.repository.location.findByUid(ctx, locationUuid)
+      data.locationId = locationId
+    }
+
     const { id, locationId, ...resp } = await this.repository.truck.create(ctx, data, {
       location: { select: { uid: true } },
     })
