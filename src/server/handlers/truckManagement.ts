@@ -1,7 +1,8 @@
 import { NextFunction, Request, Response, Router } from 'express'
 import TruckManagementService from '@app/server/services/trucks'
-import { CreateTruckRequest, RequestContext, UpdateTruckRequest } from '@app/dtos'
-import validate from '@app/server/common/validator'
+import { RequestContext } from '@app/dtos/index.ts'
+import { CreateTruckRequest, UpdateTruckRequest } from '@app/dtos/index'
+import authorizeClaims from '@app/server/common/authorizeClaims.js'
 
 const truckManagementService = new TruckManagementService()
 
@@ -10,8 +11,7 @@ const router: Router = Router()
 // Handler to create a new truck
 router.post('/', async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
-    const validatedPayload = await validate(CreateTruckRequest, req)
-    return res.status(200).send({ validatedPayload })
+    authorizeClaims(res.locals as RequestContext, ['trucks.write', 'trucks.all'])
     res.locals.response = await truckManagementService.createTruck(
       res.locals as RequestContext,
       { ...req.body } as CreateTruckRequest,
@@ -26,6 +26,7 @@ router.post('/', async (req: Request, res: Response, next: NextFunction): Promis
 router.get('/', async (_: Request, res: Response, next: NextFunction): Promise<void> => {
   //TODO: (ListEnhancements) Implement sorting and filtering
   try {
+    authorizeClaims(res.locals as RequestContext, ['trucks.read', 'v.all'])
     res.locals.response = await truckManagementService.getTrucks(res.locals as RequestContext)
     return next()
   } catch (error) {
@@ -38,6 +39,7 @@ router.get(
   '/:licensePlate',
   async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
+      authorizeClaims(res.locals as RequestContext, ['trucks.read', 'trucks.all'])
       res.locals.response = await truckManagementService.getTruck(
         res.locals as RequestContext,
         req.params.licensePlate,
@@ -54,6 +56,7 @@ router.patch(
   '/:licensePlate',
   async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
+      authorizeClaims(res.locals as RequestContext, ['trucks.write', 'trucks.all'])
       res.locals.response = await truckManagementService.updateTruck(
         res.locals as RequestContext,
         req.params.licensePlate,
@@ -71,6 +74,7 @@ router.delete(
   '/:licensePlate',
   async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
+      authorizeClaims(res.locals as RequestContext, ['trucks.all'])
       res.locals.response = await truckManagementService.deleteTruck(
         res.locals as RequestContext,
         req.params.licensePlate,

@@ -11,8 +11,9 @@ interface AccessorState {
   setAccessor: Function
 }
 
-const useAccessor = (): { AccessorType; Function } => {
-  const [accessor, setAccessor] = useLocalStorageState('accessor')
+const useAccessor = (): { accessor: AccessorType; setAccessor: Function } => {
+  const [accessor, setAccessor]: [accessor: AccessorType, setAccessor: Function] =
+    useLocalStorageState('accessor')
   return { accessor, setAccessor }
 }
 
