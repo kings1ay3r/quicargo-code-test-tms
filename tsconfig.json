@@ -27,9 +27,6 @@
       "@web/*": [
         "src/client/*"
       ],
-      "@dtos/*": [
-        "src/dtos/*"
-      ],
       "@components/*": [
         "src/components/*"
       ],
