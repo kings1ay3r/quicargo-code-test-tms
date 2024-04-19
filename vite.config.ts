@@ -9,6 +9,6 @@ export default defineConfig({
     exclude: ['js-big-decimal'],
   },
   resolve: {
-    alias: [{ find: '@dtos', replacement: path.resolve(__dirname, 'src/dtos') }],
+    alias: [{ find: '@dtos', replacement: path.resolve(__dirname, 'src/dtos/') }],
   },
 })
