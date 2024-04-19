@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response, Router } from 'express'
 import LocationManagementService from '@app/server/services/locations'
 import { CreateLocationRequest, RequestContext, UpdateLocationRequest } from '@app/dtos/'
+import authorizeClaims from '@app/server/common/authorizeClaims.js'
 
 const locationManagementService = new LocationManagementService()
 
@@ -9,6 +10,7 @@ const router: Router = Router()
 // Handler to create a new location
 router.post('/', async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
+    authorizeClaims(res.locals as RequestContext, ['locations.write', 'locations.all'])
     res.locals.response = await locationManagementService.createLocation(
       res.locals as RequestContext,
       { ...req.body } as CreateLocationRequest,
@@ -23,6 +25,7 @@ router.post('/', async (req: Request, res: Response, next: NextFunction): Promis
 router.get('/', async (_: Request, res: Response, next: NextFunction): Promise<void> => {
   //TODO: (ListEnhancements) Implement sorting and filtering
   try {
+    authorizeClaims(res.locals as RequestContext, ['locations.read', 'locations.all'])
     res.locals.response = await locationManagementService.getLocations(res.locals as RequestContext)
     return next()
   } catch (error) {
@@ -33,6 +36,7 @@ router.get('/', async (_: Request, res: Response, next: NextFunction): Promise<v
 // Handler to get a location
 router.get('/:uuid', async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
+    authorizeClaims(res.locals as RequestContext, ['locations.read', 'locations.all'])
     res.locals.response = await locationManagementService.getLocation(
       res.locals as RequestContext,
       req.params.uuid,
@@ -46,6 +50,7 @@ router.get('/:uuid', async (req: Request, res: Response, next: NextFunction): Pr
 // Handler to update the details of a location
 router.patch('/:uuid', async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
+    authorizeClaims(res.locals as RequestContext, ['locations.write', 'locations.all'])
     res.locals.response = await locationManagementService.updateLocation(
       res.locals as RequestContext,
       req.params.uuid,
@@ -60,6 +65,7 @@ router.patch('/:uuid', async (req: Request, res: Response, next: NextFunction): 
 // Handler to delete a location
 router.delete('/:uuid', async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
+    authorizeClaims(res.locals as RequestContext, ['locations.all'])
     res.locals.response = await locationManagementService.deleteLocation(
       res.locals as RequestContext,
       req.params.uuid,

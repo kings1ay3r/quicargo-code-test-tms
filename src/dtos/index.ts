@@ -7,4 +7,10 @@ export type ListResponse<T> = {
   hasMore: boolean
 }
 
-export type RequestContext = Record<string, any>
+export interface RequestContext extends Record<string, any> {
+  accessor: {
+    uid: string
+    role: string
+    claims: Set<string>
+  }
+}

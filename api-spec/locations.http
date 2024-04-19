@@ -1,12 +1,15 @@
 ### List Locations
 GET {{SERVERURL}}:{{PORT}}/api/locations
+Authorization: Basic YWRtaW46
 
 ### Get Location
 GET {{SERVERURL}}:{{PORT}}/api/locations/c5d618ea-8dd7-43ce-a7fd-1b6c0d14e919
+Authorization: Basic YWRtaW46
 
 ### Create Location
 POST {{SERVERURL}}:{{PORT}}/api/locations
 Content-Type: application/json
+Authorization: Basic YWRtaW46
 
 {
   "name": "WareHouse 12",
@@ -17,6 +20,7 @@ Content-Type: application/json
 ### Update Location
 PATCH {{SERVERURL}}:{{PORT}}/api/locations/dc52a13f-9eb2-46bb-97a2-a8779e7f4b8a
 Content-Type: application/json
+Authorization: Basic YWRtaW46
 
 {
   "address": "Bell Haven Gardens"
@@ -24,4 +28,5 @@ Content-Type: application/json
 
 ### Delete Location
 DELETE {{SERVERURL}}:{{PORT}}/api/locations/4ad76afa-1723-4227-9b52-68c3b265f9fe
+Authorization: Basic YWRtaW46
 
