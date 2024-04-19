@@ -19,6 +19,7 @@
     "isolatedModules": true,
     "noEmit": true,
     "baseUrl": "./",
+    "relativeBaseUrl": true,
     "paths": {
       "@app/*": [
         "src/*"
@@ -35,7 +36,8 @@
       "@assets/*": [
         "src/assets/*"
       ]
-    }
+    },
+    "jsx": "react"
   },
   "include": [
     "src"
