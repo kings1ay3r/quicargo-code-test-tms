@@ -23,5 +23,5 @@ Content-Type: application/json
 }
 
 ### Delete Location
-DELETE {{SERVERURL}}:{{PORT}}/api/locations/78d45082-d62f-46ff-9c0c-f11e24381ffd
+DELETE {{SERVERURL}}:{{PORT}}/api/locations/4ad76afa-1723-4227-9b52-68c3b265f9fe
 

@@ -15,7 +15,7 @@ const SignIn: React.FC = () => {
   }, [accessor, navigate])
 
   const handleLogin = () => {
-    setAccessor({ name: 'John Doe', id: '1' })
+    setAccessor({ name: 'John Doe', id: '1', token: 'test-token' })
     navigate('/')
   }
 

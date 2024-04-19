@@ -3,7 +3,7 @@ import { useQuery, UseQueryResult } from '@tanstack/react-query'
 import axios from 'axios'
 import useAccessor from './useAccessor'
 
-const baseURL = 'http://localhost:6565/api'
+const baseURL = import.meta.env.VITE_REACT_APP_SERVER_URL
 
 export interface ApiCallProps {
   queryKey: string[]
@@ -27,19 +27,50 @@ export const useApiCall = <T, Error>({
 
   return useQuery<T, Error>({
     queryKey: queryKey,
-    enabled: Boolean(accessor?.uid) && enabled, // Only make the API call if accessor is present
+    enabled: Boolean(accessor?.token), // Only make the API call if accessor is present
     queryFn: async () => {
-      const { data } = await axios({
-        baseURL,
-        method,
-        headers: { ...headers, Authorization: `Bearer ${accessor.token}` },
-        url,
-        params,
-      })
-      return data
+      try {
+        const { data, status } = await axios({
+          baseURL,
+          method,
+          headers: { ...headers, Authorization: `Bearer ${accessor.token}` },
+          url,
+          params,
+        })
+        return data.data
+      } catch (error) {
+        throw new Error(error.response.data.message)
+      }
     },
     refetchOnReconnect: false,
     refetchOnWindowFocus: false,
     refetchOnMount: false,
   })
+}
+
+export const apiCall = async (
+  accessor: { token: string },
+  url: string,
+  method: string,
+  headers: { [key: string]: string } = {},
+  params: { [key: string]: string } = {},
+  payload: any = {},
+) => {
+  try {
+    const { data, status } = await axios({
+      baseURL,
+      method,
+      headers: { ...headers, Authorization: `Bearer ${accessor.token}` },
+      url,
+      params,
+      data: payload,
+    })
+    return data
+  } catch (error) {
+    return {
+      error: {
+        message: error.response.data.message,
+      },
+    }
+  }
 }
