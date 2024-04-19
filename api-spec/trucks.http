@@ -9,18 +9,14 @@ POST {{SERVERURL}}:{{PORT}}/api/trucks
 Content-Type: application/json
 
 {
-  "name": "Truck 1",
+  "names": "Truck 1",
   "model": "Model 1",
-  "year": 2020,
+  "year": 2320,
   "licensePlate": "ABC-1234",
   "make": "Make 1",
   "brand": "Brand 1",
   "capacity": 1000,
-  "location": {
-    "connect": {
-      "id": 1
-    }
-  }
+  "locationUuid": "1df89b57-853d-4aee-933f-25cecacd3323"
 }
 
 ### Update Truck
@@ -28,7 +24,7 @@ PATCH {{SERVERURL}}:{{PORT}}/api/trucks/038f6b3e-aacd-41a7-8a3d-dc7477a28ce3
 Content-Type: application/json
 
 {
-  "brand": "Brand 25",
+  "brand": "Brand 26",
   "locationUuid": "1df89b57-853d-4aee-933f-25cecacd3323"
 }
 
