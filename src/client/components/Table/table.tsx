@@ -59,17 +59,14 @@ const EditButtonWithModal = ({ handler, data }) => {
       <Link onClick={handleOpenModal}>
         <svg
           xmlns='http://www.w3.org/2000/svg'
-          fill='none'
+          width='24'
+          height='24'
           viewBox='0 0 24 24'
+          fill='none'
           stroke='currentColor'
-          className='h-6 w-6'
+          className='feather feather-edit'
         >
-          <path
-            strokeLinecap='round'
-            strokeLinejoin='round'
-            strokeWidth={2}
-            d='M12 14l9-5-9-5-9 5 9 5zm0 0l9-5-9-5-9 5 9 5zm-12-5h24'
-          />
+          <path d='M20.84 8.479l-3.698-3.698a2.121 2.121 0 0 0-3 0L3.171 16.03a2.118 2.118 0 0 0-.53.944L2 20l4.025-.642 5.386-5.386a2.124 2.124 0 0 0 0-3l-3.697-3.697a2.118 2.118 0 0 1 0-3l3.697-3.697a2.121 2.121 0 0 1 3 0l2.828 2.828a2.118 2.118 0 0 1 0 3.001zM14.849 4.827l-7.07 7.071 2.828 2.828 7.07-7.071-2.828-2.828z'></path>
         </svg>
       </Link>
       {isModalOpen && <Modal onClose={handleCloseModal}>{editForm}</Modal>}
@@ -138,7 +135,7 @@ const Table: React.FC<TableProps> = ({ columns, items, actions, handlers }) => {
       <div className='max-w-full overflow-x-auto'>
         <table className='w-full table-auto'>
           <thead>
-            <tr className='bg-gray-2 text-left dark:bg-meta-4'>
+            <tr className='bg-gray-2 text-left dark:bg-meta-4 font-bold text-lg border-b-4'>
               {columns.map((column, index) => (
                 <th key={index} className='min-w-[220px] py-4 px-4 font-medium text-black xl:pl-11'>
                   {column.label}

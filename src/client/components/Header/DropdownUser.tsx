@@ -1,7 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-
-import UserOne from '../../assets/user.png'
 import useAccessor from '../../customHooks/useAccessor'
 
 const DropdownUser = () => {
@@ -54,7 +52,7 @@ const DropdownUser = () => {
         </span>
 
         <span className='h-12 w-12 rounded-full'>
-          <img src={UserOne} alt='User' />
+          <img src={accessor.img} alt='User' />
         </span>
 
         <svg

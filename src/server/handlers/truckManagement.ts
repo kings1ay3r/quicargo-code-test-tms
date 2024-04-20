@@ -26,7 +26,7 @@ router.post('/', async (req: Request, res: Response, next: NextFunction): Promis
 router.get('/', async (_: Request, res: Response, next: NextFunction): Promise<void> => {
   //TODO: (ListEnhancements) Implement sorting and filtering
   try {
-    authorizeClaims(res.locals as RequestContext, ['trucks.read', 'v.all'])
+    authorizeClaims(res.locals as RequestContext, ['trucks.read', 'trucks.all'])
     res.locals.response = await truckManagementService.getTrucks(res.locals as RequestContext)
     return next()
   } catch (error) {
@@ -35,55 +35,46 @@ router.get('/', async (_: Request, res: Response, next: NextFunction): Promise<v
 })
 
 // Handler to get a truck
-router.get(
-  '/:licensePlate',
-  async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-    try {
-      authorizeClaims(res.locals as RequestContext, ['trucks.read', 'trucks.all'])
-      res.locals.response = await truckManagementService.getTruck(
-        res.locals as RequestContext,
-        req.params.licensePlate,
-      )
-      return next()
-    } catch (error) {
-      return next(error)
-    }
-  },
-)
+router.get('/:uid', async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+  try {
+    authorizeClaims(res.locals as RequestContext, ['trucks.read', 'trucks.all'])
+    res.locals.response = await truckManagementService.getTruck(
+      res.locals as RequestContext,
+      req.params.uid,
+    )
+    return next()
+  } catch (error) {
+    return next(error)
+  }
+})
 
 // Handler to update the details of a truck
-router.patch(
-  '/:licensePlate',
-  async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-    try {
-      authorizeClaims(res.locals as RequestContext, ['trucks.write', 'trucks.all'])
-      res.locals.response = await truckManagementService.updateTruck(
-        res.locals as RequestContext,
-        req.params.licensePlate,
-        req.body as UpdateTruckRequest,
-      )
-      return next()
-    } catch (error) {
-      return next(error)
-    }
-  },
-)
+router.patch('/:uid', async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+  try {
+    authorizeClaims(res.locals as RequestContext, ['trucks.write', 'trucks.all'])
+    res.locals.response = await truckManagementService.updateTruck(
+      res.locals as RequestContext,
+      req.params.uid,
+      req.body as UpdateTruckRequest,
+    )
+    return next()
+  } catch (error) {
+    return next(error)
+  }
+})
 
 // Handler to delete a truck
-router.delete(
-  '/:licensePlate',
-  async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-    try {
-      authorizeClaims(res.locals as RequestContext, ['trucks.all'])
-      res.locals.response = await truckManagementService.deleteTruck(
-        res.locals as RequestContext,
-        req.params.licensePlate,
-      )
-      return next()
-    } catch (error) {
-      next(error)
-    }
-  },
-)
+router.delete('/:uid', async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+  try {
+    authorizeClaims(res.locals as RequestContext, ['trucks.all'])
+    res.locals.response = await truckManagementService.deleteTruck(
+      res.locals as RequestContext,
+      req.params.uid,
+    )
+    return next()
+  } catch (error) {
+    next(error)
+  }
+})
 
 export default { truckManagementService, truckManagementRouter: router }

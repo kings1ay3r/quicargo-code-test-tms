@@ -5,13 +5,15 @@ import Table from '../../components/Table/table'
 import useAccessor from '../../customHooks/useAccessor'
 import CreateTruckForm from './createTruckForm'
 import EditLocationForm from './editLocationForm'
+import { useParams } from 'react-router-dom'
 
 const TrucksList: React.FC = () => {
   const showToast = useNotify()
   const { accessor } = useAccessor()
+  const params = useParams()
   const resp = useApiCall({
-    queryKey: ['trucks'],
-    url: '/trucks',
+    queryKey: ['trucks', params?.uid],
+    url: `/trucks/${params?.uid ?? ''}`,
     method: 'GET',
   })
 
@@ -23,8 +25,6 @@ const TrucksList: React.FC = () => {
   const { data, isLoading, error, refetch } = resp
 
   const { data: locations, isFetched: locationFetched, error: LocationsError } = locationList
-
-  // console.log(locations, locationFetched)
 
   const deleteLocation = async (itemId: string) => {
     try {
@@ -142,7 +142,7 @@ const TrucksList: React.FC = () => {
       <Table
         columns={columns}
         items={items}
-        actions={['edit', 'delete']}
+        actions={['edit', ...(accessor.claims.includes('trucks.all') ? ['delete'] : [])]}
         handlers={{
           edit: editHandler,
           delete: handleDelete,
