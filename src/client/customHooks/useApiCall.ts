@@ -60,7 +60,7 @@ export const apiCall = async (
     const { data, status } = await axios({
       baseURL,
       method,
-      headers: { ...headers, Authorization: `Bearer ${accessor.token}` },
+      headers: { ...headers, Authorization: `Basic ${accessor.token}` },
       url,
       params,
       data: payload,
