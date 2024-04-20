@@ -2,12 +2,18 @@ import React, { ReactNode, useState } from 'react'
 
 import Header from './components/Header/index'
 import Sidebar from './components/Sidebar/index'
-import { Outlet } from 'react-router-dom'
+import { Navigate, Outlet, useNavigate } from 'react-router-dom'
 import useAccessor from './customHooks/useAccessor'
 
 const DefaultLayout: React.FC<{ children: ReactNode }> = ({ children }) => {
   const { accessor } = useAccessor()
   const [sidebarOpen, setSidebarOpen] = useState(!!accessor)
+
+  const navigate = useNavigate()
+
+  if (!accessor) {
+    return <Navigate to='/login' />
+  }
 
   return (
     <div>
