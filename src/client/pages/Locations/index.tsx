@@ -5,13 +5,15 @@ import Table from '../../components/Table/table'
 import useAccessor from '../../customHooks/useAccessor'
 import CreateLocationForm from './createLocationForm'
 import EditLocationForm from './editLocationForm'
+import { useParams } from 'react-router-dom'
 
 const LocationsList: React.FC = () => {
   const showToast = useNotify()
   const { accessor } = useAccessor()
+  const params = useParams()
   const resp = useApiCall({
-    queryKey: ['locations'],
-    url: '/locations',
+    queryKey: ['locations', params?.uid],
+    url: `/locations/${params?.uid ?? ''}`,
     method: 'GET',
   })
   const { data, isLoading, error, refetch } = resp
@@ -90,10 +92,13 @@ const LocationsList: React.FC = () => {
     { key: 'longitude', label: 'Longitude' },
   ]
 
+  console.log(params)
   const items =
-    data.data.map(item => {
-      return { ...item, key: item.uid }
-    }) ?? []
+    data.data
+      .filter(item => !params.uid || item.uid == params.uid)
+      .map(item => {
+        return { ...item, key: item.uid }
+      }) ?? []
 
   const handleDelete = item => {
     deleteLocation(item.uid)

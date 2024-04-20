@@ -32,7 +32,7 @@ export default class LocationService extends Service {
     const { id: _, ...resp } = await this.repository.location.findByUid(ctx, id, {
       trucksAtLocation: { select: { uid: true, name: true } },
     })
-    return resp
+    return { data: [resp] }
   }
 
   async createLocation(
@@ -41,7 +41,7 @@ export default class LocationService extends Service {
     relations: Prisma.LocationDefaultArgs['include'],
   ): Promise<Location> {
     const { id, ...resp } = await this.repository.location.create(ctx, data, relations)
-    return resp
+    return { data: [resp] }
   }
 
   async updateLocation(
@@ -50,7 +50,8 @@ export default class LocationService extends Service {
     data: UpdateLocationRequest,
   ): Promise<Location> {
     const existing = await this.repository.location.findByUid(ctx, uuid)
-    return this.repository.location.update(ctx, { ...existing, ...data })
+    const { id, ...resp } = this.repository.location.update(ctx, { ...existing, ...data })
+    return { data: [resp] }
   }
 
   async deleteLocation(ctx: RequestContext, uuid: string): Promise<boolean> {

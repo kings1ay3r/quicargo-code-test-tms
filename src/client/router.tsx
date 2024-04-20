@@ -12,12 +12,20 @@ const TruckRouter = () =>
       index: true,
       element: <TrucksList />,
     },
+    {
+      path: '/:uid',
+      element: <TrucksList />,
+    },
   ])
 
 const LocationRouter = () =>
   useRoutes([
     {
       index: true,
+      element: <LocationsList />,
+    },
+    {
+      path: '/:uid',
       element: <LocationsList />,
     },
   ])

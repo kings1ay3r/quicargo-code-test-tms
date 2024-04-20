@@ -1,16 +1,50 @@
 import React from 'react'
 import Map from '../../components/Map'
+import { useApiCall } from '../../customHooks/useApiCall'
+
+const getMarkers = (locationsList, trucksList) => {
+  if (!locationsList?.data || !trucksList?.data) return []
+
+  const locations = locationsList.data
+
+  const locationHashMap = []
+
+  locations.map(location => {
+    locationHashMap[location.uid] = {
+      position: [location.lattitude, location.longitude],
+      name: location.name,
+      uid: location.uid,
+      trucks: [],
+    }
+  })
+
+  trucksList.data.map(item => {
+    if (locationHashMap[item.location.uid]) locationHashMap[item.location.uid].trucks.push(item)
+  })
+  return Object.values(locationHashMap)
+}
 
 const Dashboard: React.FC = () => {
-  const locations = [
-    { position: [51.505, -0.09], name: 'Location 1', link: 'https://example.com/location1' },
-    { position: [51.51, -0.1], name: 'Location 2', link: 'https://example.com/location2' },
-    { position: [51.515, -0.095], name: 'Location 3', link: 'https://example.com/location3' },
-  ]
+  const locationsResp = useApiCall({
+    queryKey: ['locations'],
+    url: '/locations',
+    method: 'GET',
+  })
+  const { data: locationsList } = locationsResp
+
+  const trucksResp = useApiCall({
+    queryKey: ['trucks'],
+    url: '/trucks',
+    method: 'GET',
+  })
+  const { data: trucksList } = trucksResp
+  const markers = getMarkers(locationsList, trucksList)
+
+  const mapCenter = markers?.length ? markers[0]?.position : [52.2676, 4.9041]
 
   return (
     <div className={'h-full'}>
-      <Map center={[51.505, -0.09]} zoom={13} locations={locations} />
+      {markers && markers.length && <Map center={mapCenter} zoom={13} locations={markers} />}
     </div>
   )
 }

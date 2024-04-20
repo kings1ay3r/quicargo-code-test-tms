@@ -21,7 +21,7 @@ export default class TruckService extends Service {
     const { id, locationId, ...resp } = await this.repository.truck.findByUid(ctx, uuid, {
       location: { select: { uid: true } },
     })
-    return resp
+    return { data: [resp] }
   }
 
   async createTruck(ctx: RequestContext, _data: CreateTruckRequest): Promise<Truck> {
@@ -34,7 +34,7 @@ export default class TruckService extends Service {
     const { id, locationId, ...resp } = await this.repository.truck.create(ctx, data, {
       location: { select: { uid: true } },
     })
-    return resp
+    return { data: [resp] }
   }
 
   async updateTruck(ctx: RequestContext, uuid: string, _data: UpdateTruckRequest): Promise<Truck> {
@@ -52,7 +52,7 @@ export default class TruckService extends Service {
       },
       { location: { select: { uid: true } } },
     )
-    return { ...resp }
+    return { data: [resp] }
   }
 
   async deleteTruck(ctx: RequestContext, uuid: string): Promise<boolean> {
