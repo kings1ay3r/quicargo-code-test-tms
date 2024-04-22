@@ -1,10 +1,10 @@
-import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
-import Modal from '../../components/Modal/modal'
+import React from 'react'
 import { useForm } from 'react-hook-form'
 import useNotify from '../../customHooks/useNotify'
-import { yupResolver } from '@hookform/resolvers/yup'
 import { truckCreateSchema } from '@dtos/trucks'
+
+import locations from '@web/pages/Locations'
+import { yupResolver } from '@hookform/resolvers/yup'
 
 interface LocationFormInputs {
   name: string
@@ -19,9 +19,10 @@ interface LocationFormModalProps {
   onSubmit: (data: LocationFormInputs) => void
 }
 
-const schema = truckCreateSchema()
-
 const Form = ({ onSubmit, initialValues = {}, locationsList }) => {
+  const schema = truckCreateSchema()
+
+  // Use RHF to manage form state and validation (inline)
   const {
     register,
     handleSubmit,
@@ -33,7 +34,13 @@ const Form = ({ onSubmit, initialValues = {}, locationsList }) => {
   const showToast = useNotify()
 
   const onSubmitHandler = data => {
-    return onSubmit(data)
+    // Basic validation before submitting (can be improved)
+    let isValid = true
+    
+    if (isValid) {
+      return onSubmit(data) // Pass data to parent component
+    }
+    showToast(Object.values(errors).join(', '), 'error')
   }
 
   return (
@@ -193,35 +200,24 @@ const Form = ({ onSubmit, initialValues = {}, locationsList }) => {
   )
 }
 
-const CreateTruckForm: React.FC<LocationFormModalProps> = ({ onSubmit, data, locationsList }) => {
-  const [isModalOpen, setIsModalOpen] = useState(false)
-
-  const handleOpenModal = e => {
-    e.preventDefault()
-    setIsModalOpen(true)
-  }
-
-  const handleCloseModal = () => {
-    setIsModalOpen(false)
-  }
-
+const EditTruckForm: React.FC<LocationFormModalProps> = ({
+  onSubmit,
+  data,
+  handleCloseModal,
+  locations,
+}) => {
   return (
     <>
-      <Link onClick={handleOpenModal}>+</Link>
-      {isModalOpen && (
-        <Modal onClose={handleCloseModal} title={'Create Truck'}>
-          <Form
-            initialValues={data}
-            onSubmit={data => {
-              onSubmit(data)
-              handleCloseModal()
-            }}
-            locationsList={locationsList}
-          />
-        </Modal>
-      )}
+      <Form
+        initialValues={data}
+        locationsList={locations}
+        onSubmit={data => {
+          onSubmit(data)
+          handleCloseModal()
+        }}
+      />
     </>
   )
 }
 
-export default CreateTruckForm
+export default EditTruckForm

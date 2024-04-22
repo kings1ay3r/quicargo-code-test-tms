@@ -4,7 +4,7 @@ import useNotify from '../../customHooks/useNotify'
 import Table from '../../components/Table/table'
 import useAccessor from '../../customHooks/useAccessor'
 import CreateTruckForm from './createTruckForm'
-import EditLocationForm from './editLocationForm'
+import EditTruckForm from './editTruckForm'
 import { useParams } from 'react-router-dom'
 
 const TrucksList: React.FC = () => {
@@ -41,7 +41,7 @@ const TrucksList: React.FC = () => {
     }
   }
 
-  const createLocation = async data => {
+  const createTruck = async data => {
     if (!locationFetched) return null
     try {
       let payload = {
@@ -73,15 +73,19 @@ const TrucksList: React.FC = () => {
     return <div>{error.message}</div>
   }
 
-  const editLocation = async data => {
+  const editTruck = async data => {
     try {
       const payload = {
         name: data.name,
-        address: data.address,
-        lattitude: parseFloat(data.lattitude),
-        longitude: parseFloat(data.longitude),
+        licensePlate: data.licensePlate,
+        make: data.make,
+        model: data.model,
+        year: data.year ? parseInt(data.year) : 0,
+        capacity: data.capacity ? parseInt(data.capacity) : 0,
+        locationUuid: data.locationUid,
+        brand: data.brand,
       }
-      const response = await apiCall(accessor, `/locations/${data.uid}`, 'PATCH', {}, {}, payload)
+      const response = await apiCall(accessor, `/trucks/${data.uid}`, 'PATCH', {}, {}, payload)
       if (response.status === 'success') {
         showToast('Location updated successfully', 'success')
         refetch()
@@ -118,14 +122,19 @@ const TrucksList: React.FC = () => {
     deleteLocation(item.uid)
   }
   const handleCreateLocation = data => {
-    createLocation(data)
+    createTruck(data)
   }
   const handleEditLocation = data => {
-    editLocation(data)
+    editTruck(data)
   }
   const editHandler = (data, closeModal) => {
     return (
-      <EditLocationForm onSubmit={handleEditLocation} data={data} handleCloseModal={closeModal} />
+      <EditTruckForm
+        onSubmit={handleEditLocation}
+        data={data}
+        locations={locations?.data ?? []}
+        handleCloseModal={closeModal}
+      />
     )
   }
 
