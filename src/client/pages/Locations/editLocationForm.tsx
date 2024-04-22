@@ -16,7 +16,6 @@ interface LocationFormModalProps {
 }
 
 const Form = ({ onSubmit, initialValues = {} }) => {
-  // Use RHF to manage form state and validation (inline)
   const {
     register,
     handleSubmit,
@@ -27,27 +26,10 @@ const Form = ({ onSubmit, initialValues = {} }) => {
   const showToast = useNotify()
 
   const onSubmitHandler = data => {
-    // Basic validation before submitting (can be improved)
     let isValid = true
-    if (!data.name) {
-      errors.name = 'Name is required'
-      isValid = false
-    }
-    if (!data.address) {
-      errors.address = 'Address is required'
-      isValid = false
-    }
-    if (!data.lattitude || isNaN(data.lattitude)) {
-      errors.lattitude = 'Latitude must be a number'
-      isValid = false
-    }
-    if (!data.longitude || isNaN(data.longitude)) {
-      errors.longitude = 'Longitude must be a number'
-      isValid = false
-    }
 
     if (isValid) {
-      return onSubmit(data) // Pass data to parent component
+      return onSubmit(data)
     }
     showToast(Object.values(errors).join(', '), 'error')
   }

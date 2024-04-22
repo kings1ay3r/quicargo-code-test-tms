@@ -9,7 +9,7 @@ interface MapProps {
   locations?: { position: LatLngExpression; name: string; link: string }[]
 }
 
-const Index: React.FC<MapProps> = ({ center, zoom, onClick, locations, trucks }) => {
+const Index: React.FC<MapProps> = ({ center, zoom, onClick, locations }) => {
   const mapRef = useRef<LeafletMap | null>(null)
 
   useEffect(() => {
