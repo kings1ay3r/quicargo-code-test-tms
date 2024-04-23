@@ -9,6 +9,7 @@
     "build": "vite build"
   },
   "dependencies": {
+    "@headlessui/react": "^1.7.19",
     "@hookform/resolvers": "^3.3.4",
     "@material-tailwind/react": "^2.1.9",
     "@prisma/client": "5.12.1",

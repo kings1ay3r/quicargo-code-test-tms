@@ -21,7 +21,7 @@ const Index: React.FC<MapProps> = ({ center, zoom, onClick, locations }) => {
 
     // Add the tile layer (here, we use OpenStreetMap)
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: '&copy; OpenStreetMap contributors',
+      attribution: 'Click on a location marker to see the details of the location.',
     }).addTo(mapRef.current)
 
     // Attach event listener if onClick function is provided
@@ -57,7 +57,7 @@ const Index: React.FC<MapProps> = ({ center, zoom, onClick, locations }) => {
     }
   }, [center, zoom, onClick, locations])
 
-  return <div id='map' className={'h-full'}></div>
+  return <div id='map' className={'flex h-full'}></div>
 }
 
 export default Index

@@ -65,7 +65,7 @@ const Form = ({ onSubmit, initialValues = {} }) => {
           Latitude:
         </label>
         <input
-          type='number'
+          type='text'
           {...register('lattitude', {
             validate: value => !isNaN(value) || 'Latitude must be a number',
           })}
@@ -80,7 +80,7 @@ const Form = ({ onSubmit, initialValues = {} }) => {
           Longitude:
         </label>
         <input
-          type='number'
+          type='text'
           {...register('longitude', {
             validate: value => !isNaN(value) || 'Longitude must be a number',
           })}
@@ -117,8 +117,13 @@ const CreateLocationForm: React.FC<LocationFormModalProps> = ({ onSubmit, data }
   return (
     <>
       <Link onClick={handleOpenModal}>+</Link>
-      {isModalOpen && (
-        <Modal onClose={handleCloseModal} title={'Create Location'}>
+      <Modal
+        onClose={handleCloseModal}
+        title={'Create Location'}
+        setOpen={setIsModalOpen}
+        open={isModalOpen}
+      >
+        {isModalOpen && (
           <Form
             initialValues={data}
             onSubmit={data => {
@@ -126,8 +131,8 @@ const CreateLocationForm: React.FC<LocationFormModalProps> = ({ onSubmit, data }
               handleCloseModal()
             }}
           />
-        </Modal>
-      )}
+        )}
+      </Modal>
     </>
   )
 }
