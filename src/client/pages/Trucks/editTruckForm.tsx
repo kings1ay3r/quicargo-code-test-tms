@@ -1,7 +1,7 @@
 import React from 'react'
 import { useForm } from 'react-hook-form'
 import useNotify from '../../customHooks/useNotify'
-import { truckCreateSchema } from '@dtos/trucks'
+import { createTruckSchema } from '@dtos'
 
 import locations from '@web/pages/Locations'
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -20,7 +20,7 @@ interface LocationFormModalProps {
 }
 
 const Form = ({ onSubmit, initialValues = {}, locationsList }) => {
-  const schema = truckCreateSchema()
+  const schema = createTruckSchema()
 
   // Use RHF to manage form state and validation (inline)
   const {
@@ -36,7 +36,7 @@ const Form = ({ onSubmit, initialValues = {}, locationsList }) => {
   const onSubmitHandler = data => {
     // Basic validation before submitting (can be improved)
     let isValid = true
-    
+
     if (isValid) {
       return onSubmit(data) // Pass data to parent component
     }
