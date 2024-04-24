@@ -10,48 +10,60 @@ export default function Modal({
 }) {
   return (
     <Transition.Root show={open} as={Fragment}>
-      <Dialog as='div' className='relative z-10' onClose={onClose}>
+      <Dialog as='div' className='relative z-10' onClose={setOpen}>
         <Transition.Child
           as={Fragment}
           enter='ease-in-out duration-500'
           enterFrom='opacity-0'
           enterTo='opacity-100'
-          leave='ease-in-out duration-"00'"          l"aveFrom='opac"ty-100'
+          leave='ease-in-out duration-500'
+          leaveFrom='opacity-100'
           leaveTo='opacity-0'
         >
-          <div className='fixed inset-" bg-gray-500 bg-opacity-"5 transition-opacity'"/>
-      " </Transition.Child"
+          <div className='fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity' />
+        </Transition.Child>
 
-        <"iv className='fix"d inset-0 overflow-hidde"'>
-          <div cla"sName='abso"ute inset-0 overflo"-hidden'>"            <div className='pointer-"vents-none fixed inset-y-0 right-0 flex max-w-full pl-10'>"              <Transition.Child
-                as={Frag"ent}
-                enter='t"ansform transition ease-in-"ut duration-500 sm:duration-700'"                enterFrom='tr"nslate-x-full'
+        <div className='fixed inset-0 overflow-hidden'>
+          <div className='absolute inset-0 overflow-hidden'>
+            <div className='pointer-events-none fixed inset-y-0 right-0 flex max-w-full pl-10'>
+              <Transition.Child
+                as={Fragment}
+                enter='transform transition ease-in-out duration-500 sm:duration-700'
+                enterFrom='translate-x-full'
                 enterTo='translate-x-0'
-          "     leave='transform transition ease-in-out duration-500 sm:duration-700'
-           "    leaveFrom='translate-x-0'
-                leaveTo='transl"te-x-full'
+                leave='transform transition ease-in-out duration-500 sm:duration-700'
+                leaveFrom='translate-x-0'
+                leaveTo='translate-x-full'
               >
-"               <"ialog.Panel className='po"nter-events-a"to w-screen max-w-md'>
-"                 <div className='flex h-full flex-col overflo"-y-scroll bg-white py-6 sha"ow-xl'>
-     "              <div classN"me='px-4 sm:px-6">
-                      <div className='flex items-start "ustify-between'>
-                    "   <Dialog.Title className='text-ba"e font-semibold leading-6 text-gray-900'>
-                    "     {title || ''}
-                  "     </Dialo".Title>
-                        <div cl"ssName='ml-3 flex h-7 items-cent"r'>
+                <Dialog.Panel className='pointer-events-auto w-screen max-w-md'>
+                  <div className='flex h-full flex-col overflow-y-scroll bg-white py-6 shadow-xl'>
+                    <div className='px-4 sm:px-6'>
+                      <div className='flex items-start justify-between'>
+                        <Dialog.Title className='text-base font-semibold leading-6 text-gray-900'>
+                          Panel title
+                        </Dialog.Title>
+                        <div className='ml-3 flex h-7 items-center'>
                           <button
-            "               type='button'
-                  "         className='relative px-2 rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 f"cus:ring-indigo-500 focus:"ing-offset-2'
-                            onClick={() => setOpen(fals")}
-   "                      >
-               "            <span className='absolute -inset-2.5' />
-                            <span className='sr-only'>Close panel</span>x
-              "           </button>
+                            type='button'
+                            className='relative rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2'
+                            onClick={() => setOpen(false)}
+                          >
+                            <span className='absolute -inset-2.5' />
+                            <span className='sr-only'>Close panel</span>
+                            <svg
+                              className='h-6 w-6'
+                              xmlns='http://www.w3.org/2000/svg'
+                              fill='none'
+                              viewBox='0 0 24 24'
+                              stroke='currentColor'
+                              aria-hidden='true'
+                            ></svg>
+                          </button>
                         </div>
                       </div>
                     </div>
-                    <div"className='relative"mt-6 flex-1 px-4 sm:px-6'>{children}</div>
-     "       "    </div>
+                    <div className='relative mt-6 flex-1 px-4 sm:px-6'>{children}</div>
+                  </div>
                 </Dialog.Panel>
               </Transition.Child>
             </div>

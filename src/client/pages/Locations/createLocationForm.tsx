@@ -4,7 +4,7 @@ import Modal from '../../components/Modal/modal'
 import { useForm } from 'react-hook-form'
 import useNotify from '../../customHooks/useNotify'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { createLocationSchema } from '@dtos'
+import { creataeLocationSchema } from '@dtos'
 
 interface LocationFormInputs {
   name: string
@@ -19,7 +19,7 @@ interface LocationFormModalProps {
   onSubmit: (data: LocationFormInputs) => void
 }
 
-const schema = createLocationSchema()
+const schema = creataeLocationSchema()
 
 const Form = ({ onSubmit, initialValues = {} }) => {
   const {

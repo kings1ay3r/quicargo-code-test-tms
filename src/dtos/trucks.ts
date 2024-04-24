@@ -32,7 +32,7 @@ export type UpdateTruckRequest = {
   capacity?: number
 }
 
-export const truckCreateSchema = () => {
+export const createTruckSchema = () => {
   return yup.object().shape({
     licensePlate: yup.string().required('License plate is required.'),
     name: yup.string().required('Truck name is required.'),

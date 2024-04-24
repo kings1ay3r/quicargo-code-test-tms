@@ -1,5 +1,5 @@
-export * from '@dtos/trucks'
-export * from '@dtos/locations'
+export * from './trucks'
+export * from './locations'
 
 export type ListResponse<T> = {
   data: T[]
