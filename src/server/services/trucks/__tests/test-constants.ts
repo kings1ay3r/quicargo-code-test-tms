@@ -1,0 +1,55 @@
+import { CreateTruckRequest } from '@app/dtos/index.js'
+
+export const createTruckRequest: CreateTruckRequest = {
+  name: 'Test Truck',
+  licensePlate: 'TEST123',
+  locationUuid: 'test-location',
+  brand: 'Test Brand',
+  model: 'Test Model',
+  year: 2021,
+  capacity: 1000,
+  make: 'Test Make',
+}
+export const locationDbResponse = {
+  id: 1,
+  uid: 'test-location',
+  name: 'Test Location',
+  address: 'Test Address',
+  lattitude: 0,
+  longitude: 0,
+  createdBy: 'test-user',
+  createdAt: new Date(),
+  updatedBy: 'test-user',
+  updatedAt: new Date(),
+  deletedBy: null,
+  deletedAt: null,
+}
+export const dbResponse = {
+  id: 1,
+  uid: 'test-truck',
+  name: 'Test Truck',
+  licensePlate: 'TEST123',
+  locationUuid: 'test-location',
+  brand: 'Test Brand',
+  model: 'Test Model',
+  year: 2021,
+  capacity: 1000,
+  make: 'Test Make',
+  location: { uid: 'test-location' },
+  createdBy: 'test-user',
+  createdAt: new Date(),
+  updatedBy: 'test-user',
+  updatedAt: new Date(),
+  deletedBy: null,
+  deletedAt: null,
+  locationId: 1,
+}
+export const updateTruckRequest = {
+  name: 'Test Truck',
+  licensePlate: 'TEST123',
+  brand: 'Test Brand',
+  model: 'Test Model',
+  year: 2021,
+  capacity: 1000,
+  make: 'Test Make',
+}
