@@ -1,5 +1,5 @@
 import logger from '@app/server/common/logger'
-import prisma from '@app/server/repository/prismaClient'
+import prisma, { Repository } from '@app/server/repository/prismaClient'
 
 export class Service {
   logTag: string
@@ -14,9 +14,9 @@ export class Service {
   }
 
   // TODO: (SanityEnhancements) Annotate type for prisma
-  repository: Record<string, any>
+  repository: Repository
 
-  constructor(serviceName: string, repositoryName: string) {
+  constructor(serviceName: string) {
     this.logTag = serviceName
     this.repository = prisma
     if (!this.repository) {

@@ -1,14 +1,16 @@
-import { Service } from '@app/server/services/service.js'
-import { Prisma } from '@prisma/client'
 import {
   CreateLocationRequest,
   ListResponse,
   Location,
   RequestContext,
   UpdateLocationRequest,
-} from '@dtos/'
+} from '@app/dtos/'
+import repository, { Repository } from '@app/server/repository/prismaClient'
+import { Service } from '@app/server/services/service'
 
-export default class LocationService extends Service {
+class LocationService extends Service {
+  repository: Repository = repository
+
   constructor() {
     super('LocationService')
   }
@@ -22,13 +24,13 @@ export default class LocationService extends Service {
           {},
           { trucksAtLocation: { select: { uid: true } } },
         )
-      ).map(({ id, ...resp }) => resp) as Location[],
+      ).map(({ id, ...resp }: { id: number }) => resp) as Location[],
       count: await this.repository.location.count(),
       hasMore: false,
     }
   }
 
-  async getLocation(ctx: RequestContext, id: string): Promise<Location> {
+  async getLocation(ctx: RequestContext, id: string): Promise<{ data: Omit<Location, 'id'>[] }> {
     const { id: _, ...resp } = await this.repository.location.findByUid(ctx, id, {
       trucksAtLocation: { select: { uid: true, name: true } },
     })
@@ -38,9 +40,8 @@ export default class LocationService extends Service {
   async createLocation(
     ctx: RequestContext,
     data: CreateLocationRequest,
-    relations: Prisma.LocationDefaultArgs['include'],
-  ): Promise<Location> {
-    const { id, ...resp } = await this.repository.location.create(ctx, data, relations)
+  ): Promise<{ data: Omit<Location, 'id'>[] }> {
+    const { id, ...resp } = await this.repository.location.create(ctx, data)
     return { data: [resp] }
   }
 
@@ -48,14 +49,16 @@ export default class LocationService extends Service {
     ctx: RequestContext,
     uuid: string,
     data: UpdateLocationRequest,
-  ): Promise<Location> {
+  ): Promise<{ data: Omit<Location, 'id'>[] }> {
     const existing = await this.repository.location.findByUid(ctx, uuid)
-    const { id, ...resp } = this.repository.location.update(ctx, { ...existing, ...data })
+    const { id, ...resp } = await this.repository.location.update(ctx, { ...existing, ...data })
     return { data: [resp] }
   }
 
   async deleteLocation(ctx: RequestContext, uuid: string): Promise<boolean> {
     const existing = await this.repository.location.findByUid(ctx, uuid)
-    return (await this.repository.location.delete(ctx, existing.id)).deleteAt !== null
+    return (await this.repository.location.delete(ctx, existing.id)).deletedAt !== null
   }
 }
+
+export default LocationService
