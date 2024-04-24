@@ -12,7 +12,7 @@ export class UpdateLocationRequest {
   // Define properties here, if needed
 }
 
-export const locationSchema = () => {
+export const creataeLocationSchema = () => {
   return yup.object().shape({
     name: yup.string().required(),
     address: yup.string().required(),

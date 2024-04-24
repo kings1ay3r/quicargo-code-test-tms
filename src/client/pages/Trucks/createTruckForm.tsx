@@ -208,8 +208,13 @@ const CreateTruckForm: React.FC<LocationFormModalProps> = ({ onSubmit, data, loc
   return (
     <>
       <Link onClick={handleOpenModal}>+</Link>
-      {isModalOpen && (
-        <Modal onClose={handleCloseModal} title={'Create Truck'}>
+      <Modal
+        onClose={handleCloseModal}
+        title={'Create Truck'}
+        setOpen={setIsModalOpen}
+        open={isModalOpen}
+      >
+        {isModalOpen && (
           <Form
             initialValues={data}
             onSubmit={data => {
@@ -218,8 +223,8 @@ const CreateTruckForm: React.FC<LocationFormModalProps> = ({ onSubmit, data, loc
             }}
             locationsList={locationsList}
           />
-        </Modal>
-      )}
+        )}
+      </Modal>
     </>
   )
 }

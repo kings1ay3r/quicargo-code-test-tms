@@ -69,7 +69,9 @@ const EditButtonWithModal = ({ handler, data }) => {
           <path d='M20.84 8.479l-3.698-3.698a2.121 2.121 0 0 0-3 0L3.171 16.03a2.118 2.118 0 0 0-.53.944L2 20l4.025-.642 5.386-5.386a2.124 2.124 0 0 0 0-3l-3.697-3.697a2.118 2.118 0 0 1 0-3l3.697-3.697a2.121 2.121 0 0 1 3 0l2.828 2.828a2.118 2.118 0 0 1 0 3.001zM14.849 4.827l-7.07 7.071 2.828 2.828 7.07-7.071-2.828-2.828z'></path>
         </svg>
       </Link>
-      {isModalOpen && <Modal onClose={handleCloseModal}>{editForm}</Modal>}
+      <Modal open={isModalOpen} setOpen={setIsModalOpen} onClose={handleCloseModal} title={'Edit'}>
+        {isModalOpen && editForm}
+      </Modal>
     </>
   )
 }
@@ -164,3 +166,4 @@ const Table: React.FC<TableProps> = ({ columns, items, actions, handlers }) => {
 }
 
 export default Table
+export { EditButtonWithModal, DeleteButton }

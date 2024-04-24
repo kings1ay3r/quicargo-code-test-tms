@@ -1,35 +1,75 @@
-import React from 'react'
+import { Fragment } from 'react'
+import { Dialog, Transition } from '@headlessui/react'
 
-const Modal = ({ children, onClose, onSubmit, title }) => {
-  const handleSubmit = () => {
-    onSubmit()
-    onClose()
-  }
+export default function Modal({
+  open = false,
+  setOpen = () => {},
+  onClose = () => {},
+  title = 'Modal title',
+  children,
+}) {
   return (
-    <div className='fixed z-10 inset-0 overflow-y-auto'>
-      <div className='flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center text-black sm:block sm:p-0'>
-        <div className='fixed inset-0 transition-opacity' aria-hidden='true'>
-          <div className='absolute inset-0 bg-gray-500 opacity-75'></div>
-        </div>
-        <span className='hidden sm:inline-block sm:align-middle sm:h-screen' aria-hidden='true'>
-          &#8203;
-        </span>
-        <div className='inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full flex-row-reverse'>
-          <div className='bg-gray-50 px-4 py-3 sm:px-6 sm:flex'>
-            <button
-              type='button'
-              className='mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm flex'
-              onClick={onClose}
-            >
-              x
-            </button>
-            <h1 className={'flex text-gray-700 pl-8'}>{title}</h1>
+    <Transition.Root show={open} as={Fragment}>
+      <Dialog as='div' className='relative z-10' onClose={setOpen}>
+        <Transition.Child
+          as={Fragment}
+          enter='ease-in-out duration-500'
+          enterFrom='opacity-0'
+          enterTo='opacity-100'
+          leave='ease-in-out duration-500'
+          leaveFrom='opacity-100'
+          leaveTo='opacity-0'
+        >
+          <div className='fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity' />
+        </Transition.Child>
+
+        <div className='fixed inset-0 overflow-hidden'>
+          <div className='absolute inset-0 overflow-hidden'>
+            <div className='pointer-events-none fixed inset-y-0 right-0 flex max-w-full pl-10'>
+              <Transition.Child
+                as={Fragment}
+                enter='transform transition ease-in-out duration-500 sm:duration-700'
+                enterFrom='translate-x-full'
+                enterTo='translate-x-0'
+                leave='transform transition ease-in-out duration-500 sm:duration-700'
+                leaveFrom='translate-x-0'
+                leaveTo='translate-x-full'
+              >
+                <Dialog.Panel className='pointer-events-auto w-screen max-w-md'>
+                  <div className='flex h-full flex-col overflow-y-scroll bg-white py-6 shadow-xl'>
+                    <div className='px-4 sm:px-6'>
+                      <div className='flex items-start justify-between'>
+                        <Dialog.Title className='text-base font-semibold leading-6 text-gray-900'>
+                          Panel title
+                        </Dialog.Title>
+                        <div className='ml-3 flex h-7 items-center'>
+                          <button
+                            type='button'
+                            className='relative rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2'
+                            onClick={() => setOpen(false)}
+                          >
+                            <span className='absolute -inset-2.5' />
+                            <span className='sr-only'>Close panel</span>
+                            <svg
+                              className='h-6 w-6'
+                              xmlns='http://www.w3.org/2000/svg'
+                              fill='none'
+                              viewBox='0 0 24 24'
+                              stroke='currentColor'
+                              aria-hidden='true'
+                            ></svg>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                    <div className='relative mt-6 flex-1 px-4 sm:px-6'>{children}</div>
+                  </div>
+                </Dialog.Panel>
+              </Transition.Child>
+            </div>
           </div>
-          <div className='bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4 text-gray-700'>{children}</div>
         </div>
-      </div>
-    </div>
+      </Dialog>
+    </Transition.Root>
   )
 }
-
-export default Modal

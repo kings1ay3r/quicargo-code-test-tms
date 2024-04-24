@@ -1,0 +1,1 @@
+// Generate a dismissable sidepanel component that takes a child component as its content. Style it to slide in on invocation, slide out on dismisal. It should always be displayed on the right side of the screen
