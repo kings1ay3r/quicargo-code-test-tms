@@ -1,7 +1,7 @@
-import request from 'supertest'
-import express from 'express'
-import apiRouter from '@app/server/router'
 import DBConnection from '@app/server/repository/dbc'
+import apiRouter from '@app/server/router'
+import express from 'express'
+import request from 'supertest'
 
 DBConnection.connectionString = 'postgres://postgres:password@localhost:5432/test'
 
@@ -13,14 +13,14 @@ app.use(express.urlencoded({ extended: true }))
 app.use('/api', apiRouter)
 
 describe('locations', () => {
-  let locationUid: string = 'undefined'
+  let locationUuid: string = 'undefined'
   beforeAll(async () => {
     const res = await request(app)
       .post('/api/locations')
       .set('Authorization', `Basic ${adminToken}`)
       .send({ name: 'test-location123', lattitude: 53.6, longitude: 4.09, address: 'test address' }) // corrected 'latitude' spelling
     expect(res.statusCode).toEqual(200)
-    locationUid = res.body.data.data[0].uid
+    locationUuid = res.body.data.data[0].uid
   })
   test('get /locations', async () => {
     const res = await request(app).get('/api/locations').set('Authorization', `Basic ${adminToken}`)
@@ -28,13 +28,13 @@ describe('locations', () => {
   })
   test('get /locations/:uid', async () => {
     const res = await request(app)
-      .get(`/api/locations/${locationUid}`)
+      .get(`/api/locations/${locationUuid}`)
       .set('Authorization', `Basic ${adminToken}`)
     expect(res.statusCode).toEqual(200)
   })
   test('update /locations/:uid', async () => {
     const res = await request(app)
-      .patch(`/api/locations/${locationUid}`)
+      .patch(`/api/locations/${locationUuid}`)
       .set('Authorization', `Basic ${adminToken}`)
       .send({ name: 'test-location2' })
     expect(res.statusCode).toEqual(200)
@@ -42,13 +42,13 @@ describe('locations', () => {
   })
   test('delete /locations/:uid unauthorized user', async () => {
     const res = await request(app)
-      .delete(`/api/locations/${locationUid}`)
+      .delete(`/api/locations/${locationUuid}`)
       .set('Authorization', `Basic ${userToken}`)
     expect(res.statusCode).toEqual(401)
   })
   test('delete /locations/:uid', async () => {
     const res = await request(app)
-      .delete(`/api/locations/${locationUid}`)
+      .delete(`/api/locations/${locationUuid}`)
       .set('Authorization', `Basic ${adminToken}`)
     expect(res.statusCode).toEqual(200)
     expect(res.body.data).toEqual(true)

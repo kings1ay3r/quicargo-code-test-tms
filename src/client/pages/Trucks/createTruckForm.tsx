@@ -1,10 +1,11 @@
 import React, { useState } from 'react'
+
 import { Link } from 'react-router-dom'
 import Sidebar from '../../components/SideBarModal/sidebar'
+import { createTruckSchema } from '@dtos'
 import { useForm } from 'react-hook-form'
 import useNotify from '../../customHooks/useNotify'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { createTruckSchema } from '@dtos'
 
 interface LocationFormInputs {
   name: string
@@ -44,7 +45,6 @@ const Form = ({ onSubmit, initialValues = {}, locationsList }) => {
         </label>
         <div className='mt-2'>
           <div className='flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md'>
-            {/*<span className="flex select-none items-center pl-3 text-gray-500 sm:text-sm">workcation.com/</span>*/}
             <input
               type='text'
               {...register('name')}
@@ -60,7 +60,6 @@ const Form = ({ onSubmit, initialValues = {}, locationsList }) => {
         </label>
         <div className='mt-2'>
           <div className='flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md'>
-            {/*<span className="flex select-none items-center pl-3 text-gray-500 sm:text-sm">workcation.com/</span>*/}
             <input
               type='text'
               {...register('licensePlate')}
@@ -78,9 +77,8 @@ const Form = ({ onSubmit, initialValues = {}, locationsList }) => {
           Location
         </label>
         <div className='mt-2'>
-          {/*<span className="flex select-none items-center pl-3 text-gray-500 sm:text-sm">workcation.com/</span>*/}
           <select
-            {...register('locationUid')}
+            {...register('locationUuid')}
             className='mt-2 block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 h-10 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6 sm:max-w-md'
           >
             {locationsList.map((location: locations) => (
@@ -91,8 +89,8 @@ const Form = ({ onSubmit, initialValues = {}, locationsList }) => {
           </select>
         </div>
       </div>
-      {errors.locationUid?.message && (
-        <p className='text-red-500 text-xs'>{errors.locationUid?.message}</p>
+      {errors.locationUuid?.message && (
+        <p className='text-red-500 text-xs'>{errors.locationUuid?.message}</p>
       )}
       <div className='sm:col-span-4'>
         <label htmlFor='username' className='block text-sm font-medium leading-6 text-gray-900'>
@@ -100,7 +98,6 @@ const Form = ({ onSubmit, initialValues = {}, locationsList }) => {
         </label>
         <div className='mt-2'>
           <div className='flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md'>
-            {/*<span className="flex select-none items-center pl-3 text-gray-500 sm:text-sm">workcation.com/</span>*/}
             <input
               type='text'
               {...register('make')}
@@ -116,7 +113,6 @@ const Form = ({ onSubmit, initialValues = {}, locationsList }) => {
         </label>
         <div className='mt-2'>
           <div className='flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md'>
-            {/*<span className="flex select-none items-center pl-3 text-gray-500 sm:text-sm">workcation.com/</span>*/}
             <input
               type='text'
               {...register('brand')}
@@ -132,7 +128,6 @@ const Form = ({ onSubmit, initialValues = {}, locationsList }) => {
         </label>
         <div className='mt-2'>
           <div className='flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md'>
-            {/*<span className="flex select-none items-center pl-3 text-gray-500 sm:text-sm">workcation.com/</span>*/}
             <input
               type='text'
               {...register('model')}
@@ -148,7 +143,6 @@ const Form = ({ onSubmit, initialValues = {}, locationsList }) => {
         </label>
         <div className='mt-2'>
           <div className='flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md'>
-            {/*<span className="flex select-none items-center pl-3 text-gray-500 sm:text-sm">workcation.com/</span>*/}
             <input
               type='number'
               min={1900}
@@ -166,7 +160,6 @@ const Form = ({ onSubmit, initialValues = {}, locationsList }) => {
         </label>
         <div className='mt-2'>
           <div className='flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md'>
-            {/*<span className="flex select-none items-center pl-3 text-gray-500 sm:text-sm">workcation.com/</span>*/}
             <input
               type='number'
               min={0}

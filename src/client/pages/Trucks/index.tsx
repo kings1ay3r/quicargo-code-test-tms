@@ -1,11 +1,12 @@
-import React from 'react'
-import { apiCall, useApiCall } from '../../customHooks/useApiCall'
-import useNotify from '../../customHooks/useNotify'
 import Table, { DeleteButton, EditButtonWithModal } from '../../components/Table/table'
-import useAccessor from '../../customHooks/useAccessor'
+import { apiCall, useApiCall } from '../../customHooks/useApiCall'
+import { useNavigate, useParams } from 'react-router-dom'
+
 import CreateTruckForm from './createTruckForm'
 import EditTruckForm from './editTruckForm'
-import { useNavigate, useParams } from 'react-router-dom'
+import React from 'react'
+import useAccessor from '../../customHooks/useAccessor'
+import useNotify from '../../customHooks/useNotify'
 
 const TrucksList: React.FC = () => {
   const showToast = useNotify()
@@ -53,7 +54,7 @@ const TrucksList: React.FC = () => {
         model: data.model,
         year: data.year ? parseInt(data.year) : 0,
         capacity: data.capacity ? parseInt(data.capacity) : 0,
-        locationUuid: data.locationUid,
+        locationUuid: data.locationUuid,
         brand: data.brand,
       }
 
@@ -84,7 +85,7 @@ const TrucksList: React.FC = () => {
         model: data.model,
         year: data.year ? parseInt(data.year) : 0,
         capacity: data.capacity ? parseInt(data.capacity) : 0,
-        locationUuid: data.locationUid,
+        locationUuid: data.locationUuid,
         brand: data.brand,
       }
       const response = await apiCall(accessor, `/trucks/${data.uid}`, 'PATCH', {}, {}, payload)

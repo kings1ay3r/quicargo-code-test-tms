@@ -1,5 +1,5 @@
 import React from 'react'
-import Map from '../../components/Map'
+import Map from '../../components/Map/map'
 import { useApiCall } from '../../customHooks/useApiCall'
 
 const getMarkers = (locationsList, trucksList) => {
