@@ -41,7 +41,7 @@ const DefaultLayout: React.FC<{ children: ReactNode }> = ({ children }) => {
 
   const navigate = useNavigate()
 
-  if (!accessor) {
+  if (!accessor || accessor.claims === undefined) {
     return <Navigate to='/login' />
   }
 
