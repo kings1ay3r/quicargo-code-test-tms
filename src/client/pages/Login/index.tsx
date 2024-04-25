@@ -1,11 +1,12 @@
-import useAccessor from '../../customHooks/useAccessor'
+import { Avatar, Card, CardBody, IconButton, Typography } from '@material-tailwind/react'
+import { Disclosure, Menu } from '@headlessui/react'
 import { Link, useNavigate } from 'react-router-dom'
 import React, { Fragment, useEffect } from 'react'
+
+import { Illustration } from './illustration'
 import UserOne from '../../assets/user-1.png'
 import UserTwo from '../../assets/user-2.png'
-import { Avatar, Card, CardBody, IconButton, Typography } from '@material-tailwind/react'
-import { Illustration } from './illustration'
-import { Disclosure, Menu } from '@headlessui/react'
+import useAccessor from '../../customHooks/useAccessor'
 
 interface TeamCardPropsType {
   img: string
@@ -76,7 +77,7 @@ const LoginUsers = () => {
   return (
     <div className='grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-2'>
       {users.map((user, index) => (
-        <Link onClick={() => handleLogin(user)} key={index}>
+        <Link onClick={() => handleLogin(user)} key={index} data-testId='login-link'>
           <UserCard img={user.img} name={user.name} title={user.title} />
         </Link>
       ))}
@@ -101,14 +102,6 @@ const SignIn = () => {
 
   return (
     <>
-      {/*
-        This example requires updating your template:
-
-        ```
-        <html class="h-full bg-gray-100">
-        <body class="h-full">
-        ```
-      */}
       <div className='min-h-full'>
         <div className='bg-gray-800 pb-32'>
           <Disclosure as='nav' className='bg-gray-800'>
@@ -128,7 +121,6 @@ const SignIn = () => {
                         </div>
                       </div>
                       <div className='-mr-2 flex md:hidden'>
-                        {/* Mobile menu button */}
                         <Disclosure.Button className='relative inline-flex items-center justify-center rounded-md bg-gray-800 p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800'>
                           <span className='absolute -inset-0.5' />
                           <span className='sr-only'>Open main menu</span>

@@ -1,7 +1,7 @@
-import request from 'supertest'
-import express from 'express'
-import apiRouter from '@app/server/router'
 import DBConnection from '@app/server/repository/dbc'
+import apiRouter from '@app/server/router'
+import express from 'express'
+import request from 'supertest'
 
 DBConnection.connectionString = 'postgres://postgres:password@localhost:5432/test'
 
@@ -14,14 +14,14 @@ app.use('/api', apiRouter)
 
 describe('trucks', () => {
   let truckUid: string = 'undefined'
-  let locationUid: string = 'undefined'
+  let locationUuid: string = 'undefined'
   beforeAll(async () => {
     const location = await request(app)
       .post('/api/locations')
       .set('Authorization', `Basic ${adminToken}`)
       .send({ name: 'test-location123', lattitude: 53.6, longitude: 4.09, address: 'test-address' }) // corrected 'latitude' spelling
 
-    locationUid = location.body.data.data[0].uid
+    locationUuid = location.body.data.data[0].uid
     const res = await request(app)
       .post('/api/trucks')
       .set('Authorization', `Basic ${adminToken}`)
@@ -32,7 +32,7 @@ describe('trucks', () => {
         model: 'Model 1',
         year: 2022,
         capacity: 6849,
-        locationUuid: locationUid,
+        locationUuid: locationUuid,
         brand: 'brand 1',
       })
     expect(res.statusCode).toEqual(200)
@@ -40,7 +40,7 @@ describe('trucks', () => {
   })
   afterAll(async () => {
     await request(app)
-      .delete(`/api/locations/${locationUid}`)
+      .delete(`/api/locations/${locationUuid}`)
       .set('Authorization', `Basic ${adminToken}`)
   })
   test('get /trucks', async () => {

@@ -42,6 +42,7 @@
     ]
   },
   "include": [
-    "src"
+    "src",
+    "__tests/integration/integrationTests"
   ]
 }

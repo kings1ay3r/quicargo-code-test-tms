@@ -1,6 +1,8 @@
 import React from 'react'
 import { useForm } from 'react-hook-form'
 import useNotify from '../../customHooks/useNotify'
+import { updateLocationSchema } from '../../../dtos'
+import { yupResolver } from '@hookform/resolvers/yup'
 
 interface LocationFormInputs {
   name: string
@@ -16,22 +18,19 @@ interface LocationFormModalProps {
 }
 
 const Form = ({ onSubmit, initialValues = {} }) => {
+  const schema = updateLocationSchema()
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm({
     defaultValues: initialValues,
+    resolver: yupResolver(schema),
   })
   const showToast = useNotify()
 
   const onSubmitHandler = data => {
-    let isValid = true
-
-    if (isValid) {
-      return onSubmit(data)
-    }
-    showToast(Object.values(errors).join(', '), 'error')
+    return onSubmit(data)
   }
 
   return (
