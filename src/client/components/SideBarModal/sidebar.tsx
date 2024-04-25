@@ -1,13 +1,20 @@
-import { Fragment } from 'react'
+import React, { Fragment } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 
-export default function Modal({
+type SideBarProps = {
+  open?: boolean
+  setOpen?: (v: boolean) => void
+  onClose?: (v: boolean) => void
+  title?: string
+  children?: React.ReactNode
+}
+export default function Sidebar({
   open = false,
   setOpen = () => {},
   onClose = () => {},
-  title = 'Modal title',
+  title = 'SideBarModal title',
   children,
-}) {
+}: SideBarProps) {
   return (
     <Transition.Root show={open} as={Fragment}>
       <Dialog as='div' className='relative z-10' onClose={setOpen}>

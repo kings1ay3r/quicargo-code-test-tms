@@ -36,7 +36,10 @@
         "src/assets/*"
       ]
     },
-    "jsx": "react"
+    "jsx": "react",
+    "types": [
+      "jest"
+    ]
   },
   "include": [
     "src"

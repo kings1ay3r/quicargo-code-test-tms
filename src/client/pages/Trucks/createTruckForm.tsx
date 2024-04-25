@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
-import Modal from '../../components/Modal/modal'
+import Sidebar from '../../components/SideBarModal/sidebar'
 import { useForm } from 'react-hook-form'
 import useNotify from '../../customHooks/useNotify'
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -208,7 +208,7 @@ const CreateTruckForm: React.FC<LocationFormModalProps> = ({ onSubmit, data, loc
   return (
     <>
       <Link onClick={handleOpenModal}>+</Link>
-      <Modal
+      <Sidebar
         onClose={handleCloseModal}
         title={'Create Truck'}
         setOpen={setIsModalOpen}
@@ -224,7 +224,7 @@ const CreateTruckForm: React.FC<LocationFormModalProps> = ({ onSubmit, data, loc
             locationsList={locationsList}
           />
         )}
-      </Modal>
+      </Sidebar>
     </>
   )
 }
