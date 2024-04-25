@@ -1,4 +1,4 @@
-import { Prisma, PrismaClient } from '@prisma/client'
+import { Prisma } from '@prisma/client'
 
 import {
   CreateLocationRequest,
@@ -6,6 +6,7 @@ import {
   UpdateLocationRequest,
   UpdateTruckRequest,
 } from '@app/dtos'
+import DBConnection from '@app/server/repository/dbc'
 
 type TruckCreateInput = Prisma.TruckCreateInput
 type TruckData = Omit<TruckCreateInput, 'createdBy'>
@@ -16,7 +17,7 @@ type TruckRelations = Prisma.TruckDefaultArgs['include']
 type TruckFilters = Prisma.TruckWhereInput
 type LocationFilters = Prisma.LocationWhereInput
 
-const prisma = new PrismaClient()
+const prisma = DBConnection.instance
 
 class Location {
   async delete(ctx: RequestContext, id: number) {
