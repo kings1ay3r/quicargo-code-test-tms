@@ -53,16 +53,16 @@ export const createTruckSchema = () => {
       .required('Capacity is required.')
       .typeError('Capacity must be a number.') // Custom error message for type errors
       .positive('Capacity must be a positive number.'),
-    locationUid: yup.string().required('Location UID is required.'),
+    locationUuid: yup.string().required('Location UID is required.'),
   })
 }
 
 export const updateTruckSchema = () => {
   return yup.object().shape({
-    licensePlate: yup.string().required('License plate is required.'),
-    make: yup.string().required('Make of the truck is required.'),
-    brand: yup.string().required('Brand of the truck is required.'),
-    model: yup.string().required('Model of the truck is required.'),
+    licensePlate: yup.string(),
+    make: yup.string(),
+    brand: yup.string(),
+    model: yup.string(),
     year: yup
       .number()
       .typeError('Year must be a number.') // Custom error message for type errors
@@ -73,6 +73,6 @@ export const updateTruckSchema = () => {
       .number()
       .typeError('Capacity must be a number.') // Custom error message for type errors
       .positive('Capacity must be a positive number.'),
-    locationUid: yup.string().required('Location UID is required.'),
+    locationUuid: yup.string(),
   })
 }

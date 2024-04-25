@@ -19,7 +19,7 @@ describe('trucks', () => {
     const location = await request(app)
       .post('/api/locations')
       .set('Authorization', `Basic ${adminToken}`)
-      .send({ name: 'test-location123', lattitude: 53.6, longitude: 4.09 }) // corrected 'latitude' spelling
+      .send({ name: 'test-location123', lattitude: 53.6, longitude: 4.09, address: 'test-address' }) // corrected 'latitude' spelling
 
     locationUid = location.body.data.data[0].uid
     const res = await request(app)
@@ -65,7 +65,7 @@ describe('trucks', () => {
     const res = await request(app)
       .delete(`/api/trucks/${truckUid}`)
       .set('Authorization', `Basic ${userToken}`)
-    expect(res.statusCode).toEqual(500)
+    expect(res.statusCode).toEqual(401)
   })
   test('delete /trucks/:uid', async () => {
     const res = await request(app)
@@ -79,7 +79,7 @@ describe('trucks', () => {
       .post('/api/trucks')
       .set('Authorization', `Basic ${adminToken}`)
       .send({ name: 'test-truck', lattitude: 53.6 })
-    expect(res.statusCode).toEqual(500)
+    expect(res.statusCode).toEqual(400)
   })
   test('get /trucks/:uid invalid locaton', async () => {
     const res = await request(app)

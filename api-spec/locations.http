@@ -13,7 +13,8 @@ Authorization: Basic YWRtaW46
 
 {
   "name": "WareHouse 12",
-  "lattitude": 123.456789,
+  "lattitude": 12.3456789,
+  "address": "Bell Haven Gardens",
   "longitude": 98.7654321
 }
 
