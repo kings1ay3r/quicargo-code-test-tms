@@ -1,8 +1,7 @@
 import { NextFunction, Request, Response, Router } from 'express'
 import TruckManagementService from '@app/server/services/trucks'
-import { RequestContext } from '@app/dtos/index.ts'
-import { CreateTruckRequest, UpdateTruckRequest } from '@app/dtos/index'
-import authorizeClaims from '@app/server/common/authorizeClaims.js'
+import { CreateTruckRequest, RequestContext, UpdateTruckRequest } from '@app/dtos'
+import authorizeClaims from '@app/server/common/authorizeClaims'
 
 const truckManagementService = new TruckManagementService()
 

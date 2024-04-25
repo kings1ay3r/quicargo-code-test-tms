@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from 'express'
-import logger from '@app/server/common/logger.js'
+import logger from '@app/server/common/logger'
 
 export default (
   error: Error & { status?: number },
@@ -11,18 +11,20 @@ export default (
   const status: number = error.status || 500
   const message: string = error.message || 'internal server error, please try again later.'
 
-  process.env.NODE_ENV === 'DEVELOPMENT' || process.env.NODE_ENV === 'DEBUG'
-    ? console.log(error)
-    : logger.error(
-        'errorMiddleware',
-        `${req.socket.remoteAddress} ${req.method} ${req.path} ${status}`,
-        res.locals,
-        {
-          path: req.path,
-          req: { query: req.query, params: req.params, body: req.body },
-          err: error,
-        },
-      )
+  process.env.NODE_ENV === 'TEST'
+    ? console.info(error.message)
+    : process.env.NODE_ENV === 'DEVELOPMENT' || process.env.NODE_ENV === 'DEBUG'
+      ? console.log(error)
+      : logger.error(
+          'errorMiddleware',
+          `${req.socket.remoteAddress} ${req.method} ${req.path} ${status}`,
+          res.locals,
+          {
+            path: req.path,
+            req: { query: req.query, params: req.params, body: req.body },
+            err: error,
+          },
+        )
   const respMessage = {
     status: 'fail',
     data:

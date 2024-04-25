@@ -1,6 +1,6 @@
-import { RequestContext } from '@app/dtos/index.js'
+import { RequestContext } from '@app/dtos'
 
-const containsOneOf = (set, values) => {
+const containsOneOf = (set: Set<string>, values: string[]) => {
   return values.some(value => set.has(value))
 }
 export default (ctx: RequestContext, claims: string[]) => {

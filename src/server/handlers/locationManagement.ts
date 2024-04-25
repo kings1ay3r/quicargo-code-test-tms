@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response, Router } from 'express'
 import LocationManagementService from '@app/server/services/locations'
 import { CreateLocationRequest, RequestContext, UpdateLocationRequest } from '@app/dtos/'
-import authorizeClaims from '@app/server/common/authorizeClaims.js'
+import authorizeClaims from '@app/server/common/authorizeClaims'
 
 const locationManagementService = new LocationManagementService()
 

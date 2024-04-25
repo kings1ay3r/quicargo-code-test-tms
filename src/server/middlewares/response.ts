@@ -1,7 +1,7 @@
 'use strict'
 
 import { NextFunction, Request, Response } from 'express'
-import logger from '@app/server/common/logger.js'
+import logger from '@app/server/common/logger'
 
 export default (req: Request, res: Response, next: NextFunction) => {
   try {
