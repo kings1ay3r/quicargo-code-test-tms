@@ -2,13 +2,13 @@ import { NextFunction, Request, Response } from 'express'
 import logger from '@app/server/common/logger'
 
 export default (
-  error: Error & { status?: number },
+  error: Error & { statusCode?: number },
   req: Request,
   res: Response,
   _next: NextFunction,
 ) => {
   //TODO: (SanityEnhancements) Translate Prisma error statuses to HTTP statuses
-  const status: number = error.status || 500
+  const status: number = error.statusCode || 500
   const message: string = error.message || 'internal server error, please try again later.'
 
   process.env.NODE_ENV === 'TEST'
