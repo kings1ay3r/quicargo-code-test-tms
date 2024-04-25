@@ -6,30 +6,32 @@ interface MapProps {
   center: LatLngExpression
   zoom: number
   onClick?: (event: LeafletMouseEvent) => void
-  locations?: { position: LatLngExpression; name: string; link: string }[]
+  locations?: {
+    position: LatLngExpression
+    name: string
+    link: string
+    uid: string
+    trucks: { uid: string; name: string }[]
+  }[]
 }
 
-const Index: React.FC<MapProps> = ({ center, zoom, onClick, locations }) => {
+const Map: React.FC<MapProps> = ({ center, zoom, onClick, locations }) => {
   const mapRef = useRef<LeafletMap | null>(null)
 
   useEffect(() => {
-    // Initialize the Index
     mapRef.current = L.map('map', {
       center,
       zoom,
     })
 
-    // Add the tile layer (here, we use OpenStreetMap)
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: 'Click on a location marker to see the details of the location.',
     }).addTo(mapRef.current)
 
-    // Attach event listener if onClick function is provided
     if (onClick) {
       mapRef.current.on('click', onClick)
     }
 
-    // Add markers with popups for each location
     if (locations && locations.length > 0) {
       locations.forEach(({ position, name, uid, trucks }) => {
         const truckListMarkup =
@@ -49,7 +51,6 @@ const Index: React.FC<MapProps> = ({ center, zoom, onClick, locations }) => {
       })
     }
 
-    // Cleanup when the component is unmounted
     return () => {
       if (mapRef.current) {
         mapRef.current.remove()
@@ -60,4 +61,4 @@ const Index: React.FC<MapProps> = ({ center, zoom, onClick, locations }) => {
   return <div id='map' className={'flex h-full'}></div>
 }
 
-export default Index
+export default Map
