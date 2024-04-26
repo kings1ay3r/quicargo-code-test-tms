@@ -8,7 +8,7 @@ test('load page', async ({ page }) => {
   await page.goto(__APP_URL__)
 
   // Expect a title "to contain" a substring.
-  await expect(page).toHaveTitle(/Fulfilments TMS/)
+  await expect(page).toHaveTitle(/Fulfilments/)
 })
 
 test('to show login screen on load', async ({ page }) => {

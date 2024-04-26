@@ -16,13 +16,31 @@ locations, as well as view truck locations on a map.
 
 3. Install dependencies
 
-   ```yarn install```
+``` yarn install ```
+
 4. Start the application
 
-   ```yarn start```
+``` yarn start ```
+
 5. To start the Application in development mode
 
-   ```yarn dev```
+``` yarn dev ```
+
 6. To build Front End
 
-   ```yarn build```
+``` yarn build ```
+
+7. To run tests
+
+* Front End
+
+  ``` yarn test:client ```
+* Back End (Unit tests and End 2 End tests for server)
+
+  ``` yarn test:server ```
+
+* End to End tests for client
+  (Build and Start the application before running the test. )
+
+  ``` yarn test:client-e2e ```
+      
