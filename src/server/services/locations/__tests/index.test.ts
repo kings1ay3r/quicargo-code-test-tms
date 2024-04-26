@@ -11,6 +11,10 @@ import {
 describe('LocationService', () => {
   const locationService: LocationService = new LocationService()
 
+  beforeEach(() => {
+    jest.clearAllMocks()
+  })
+
   describe('get all locations', () => {
     test('happy path', async () => {
       jest.spyOn(locationService.repository.location, 'find').mockResolvedValue([])
@@ -21,7 +25,7 @@ describe('LocationService', () => {
       expect(locations.data).toBeInstanceOf(Array)
     })
 
-    test('repository returns error', async () => {
+    test('repository error', async () => {
       jest.spyOn(locationService.repository.location, 'find').mockRejectedValue(defaultError)
 
       await expect(locationService.getLocations(mockContext)).rejects.toThrow(defaultError)
@@ -37,6 +41,13 @@ describe('LocationService', () => {
       expect(newLocation).toBeDefined()
       expect(locationService.repository.location.create).toHaveBeenCalledTimes(1)
     })
+    test('repository error', async () => {
+      jest.spyOn(locationService.repository.location, 'create').mockRejectedValue(defaultError)
+
+      await expect(
+        locationService.createLocation(mockContext, createLocationRequest),
+      ).rejects.toThrow(defaultError)
+    })
   })
 
   describe('delete location', () => {
@@ -47,6 +58,21 @@ describe('LocationService', () => {
       await locationService.deleteLocation(mockContext, 'test-uid')
 
       expect(locationService.repository.location.delete).toHaveBeenCalledTimes(1)
+    })
+    test('repository find error', async () => {
+      jest.spyOn(locationService.repository.location, 'findByUid').mockRejectedValue(defaultError)
+
+      await expect(locationService.deleteLocation(mockContext, 'test-uid')).rejects.toThrow(
+        defaultError,
+      )
+    })
+    test('repository delete error', async () => {
+      jest.spyOn(locationService.repository.location, 'findByUid').mockResolvedValue(dbFindResponse)
+      jest.spyOn(locationService.repository.location, 'delete').mockRejectedValue(defaultError)
+
+      await expect(locationService.deleteLocation(mockContext, 'test-uid')).rejects.toThrow(
+        defaultError,
+      )
     })
   })
 
@@ -59,11 +85,19 @@ describe('LocationService', () => {
 
       expect(location.data).toEqual([expectedResponse])
     })
+    test('repository error', async () => {
+      jest.spyOn(locationService.repository.location, 'findByUid').mockRejectedValue(defaultError)
+
+      await expect(locationService.getLocation(mockContext, 'test-location')).rejects.toThrow(
+        defaultError,
+      )
+    })
   })
 
   describe('update location', () => {
-    test('updateLocation updates a location', async () => {
+    test('happy path', async () => {
       const { id, ...expectedResponse } = updatedLocation
+      jest.spyOn(locationService.repository.location, 'findByUid').mockResolvedValue(dbResponse)
       jest.spyOn(locationService.repository.location, 'update').mockResolvedValue(updatedLocation)
 
       const location = await locationService.updateLocation(mockContext, 'test-location', {
@@ -71,6 +105,25 @@ describe('LocationService', () => {
       })
 
       expect(location.data).toEqual([expectedResponse])
+    })
+    test('repository update error', async () => {
+      jest.spyOn(locationService.repository.location, 'findByUid').mockResolvedValue(dbResponse)
+      jest.spyOn(locationService.repository.location, 'update').mockRejectedValue(defaultError)
+
+      await expect(
+        locationService.updateLocation(mockContext, 'test-location', {
+          name: 'Updated Test Location',
+        }),
+      ).rejects.toThrow(defaultError)
+    })
+    test('repository find error', async () => {
+      jest.spyOn(locationService.repository.location, 'findByUid').mockRejectedValue(defaultError)
+
+      await expect(
+        locationService.updateLocation(mockContext, 'test-location', {
+          name: 'Updated Test Location',
+        }),
+      ).rejects.toThrow(defaultError)
     })
   })
 })

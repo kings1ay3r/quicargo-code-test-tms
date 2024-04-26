@@ -1,6 +1,6 @@
 import { RequestContext } from '@app/dtos/index.js'
 
-const defaultError = new Error('unknown error')
+const defaultError = new Error('default mock error')
 
 const mockContext: RequestContext = {
   accessor: {
