@@ -21,19 +21,19 @@ interface LocationFormModalProps {
 
 const schema = createLocationSchema()
 
-const Form = ({ onSubmit, initialValues = {} }) => {
+type FormProps = { onSubmit: (data: LocationFormInputs) => void }
+const Form = ({ onSubmit }: FormProps) => {
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm({
-    defaultValues: initialValues,
     resolver: yupResolver(schema),
   })
   const showToast = useNotify()
 
-  const onSubmitHandler = data => {
-    return onSubmit(data) // Pass data to parent component
+  const onSubmitHandler = (data: LocationFormInputs) => {
+    return onSubmit(data)
   }
 
   return (
@@ -47,8 +47,8 @@ const Form = ({ onSubmit, initialValues = {} }) => {
           {...register('name')}
           className='w-full px-3 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-1 focus:ring-blue-500'
         />
+        {errors.name && <p className='text-red-500 text-xs'>{<>errors.name</>}</p>}
       </div>
-      {errors.name?.message && <p className='text-red-500 text-xs'>{errors.name?.message}</p>}
       <div className='flex items-center'>
         <label htmlFor='address' className='text-sm font-medium mr-2'>
           Address:
@@ -58,38 +58,30 @@ const Form = ({ onSubmit, initialValues = {} }) => {
           {...register('address')}
           className='w-full px-3 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-1 focus:ring-blue-500'
         />
+        {errors.address && <p className='text-red-500 text-xs'>{<>errors.address</>}</p>}
       </div>
-      {errors.address?.message && <p className='text-red-500 text-xs'>{errors.address?.message}</p>}
       <div className='flex items-center'>
         <label htmlFor='lattitude' className='text-sm font-medium mr-2'>
           Latitude:
         </label>
         <input
           type='text'
-          {...register('lattitude', {
-            validate: value => !isNaN(value) || 'Latitude must be a number',
-          })}
+          {...register('lattitude', {})}
           className='w-full px-3 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-1 focus:ring-blue-500'
         />
+        {errors.lattitude && <p className='text-red-500 text-xs'>{<>errors.lattitude</>}</p>}
       </div>
-      {errors.lattitude?.message && (
-        <p className='text-red-500 text-xs'>{errors.lattitude?.message}</p>
-      )}
       <div className='flex items-center'>
         <label htmlFor='longitude' className='text-sm font-medium mr-2'>
           Longitude:
         </label>
         <input
           type='text'
-          {...register('longitude', {
-            validate: value => !isNaN(value) || 'Longitude must be a number',
-          })}
+          {...register('longitude', {})}
           className='w-full px-3 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-1 focus:ring-blue-500'
         />
+        {errors.longitude && <p className='text-red-500 text-xs'>{<>errors.longitude</>}</p>}
       </div>
-      {errors.longitude?.message && (
-        <p className='text-red-500 text-xs'>{errors.longitude?.message}</p>
-      )}
       <div className='flex justify-center'>
         <button
           type='submit'
@@ -102,7 +94,7 @@ const Form = ({ onSubmit, initialValues = {} }) => {
   )
 }
 
-const CreateLocationForm: React.FC<LocationFormModalProps> = ({ onSubmit, data }) => {
+const CreateLocationForm: React.FC<LocationFormModalProps> = ({ onSubmit }) => {
   const [isModalOpen, setIsModalOpen] = useState(false)
 
   const handleOpenModal = e => {
@@ -125,8 +117,7 @@ const CreateLocationForm: React.FC<LocationFormModalProps> = ({ onSubmit, data }
       >
         {isModalOpen && (
           <Form
-            initialValues={data}
-            onSubmit={data => {
+            onSubmit={(data: LocationFormInputs) => {
               onSubmit(data)
               handleCloseModal()
             }}

@@ -1,12 +1,13 @@
-import Table, { DeleteButton, EditButtonWithModal } from '../../components/Table/table'
+import Table, { ActionItem } from '../../components/Table/table'
 import { apiCall, useApiCall } from '../../customHooks/useApiCall'
-import { useNavigate, useParams } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 
 import CreateTruckForm from './createTruckForm'
 import EditTruckForm from './editTruckForm'
 import React from 'react'
 import useAccessor from '../../customHooks/useAccessor'
 import useNotify from '../../customHooks/useNotify'
+import ActionButtons from '../../components/Table/actionButtons'
 
 const TrucksList: React.FC = () => {
   const showToast = useNotify()
@@ -141,111 +142,89 @@ const TrucksList: React.FC = () => {
     )
   }
 
-  class ViewTruck extends React.Component<{ items: any; actions: any; handlers: any }> {
-    render() {
-      const item = this.props.items[0]
-      // if (!item) return
-      const actionItems = this.props.actions.map(action => {
-        switch (action) {
-          case 'edit':
-            return <EditButtonWithModal handler={this.props.handlers.edit} data={item} />
-          case 'delete':
-            return <DeleteButton onDelete={() => this.props.handlers.delete(item)} />
-          default:
-            return null
-        }
-      })
-      return (
-        <div>
-          <div className='mt-6 border-t border-gray-100 px-2'>
-            <dl className='divide-y divide-gray-100'>
-              <div className='px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0'>
-                <dt className='text-sm font-medium leading-6 text-gray-900'>Name</dt>
-                <dd className='mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0'>
-                  {this.props.items[0].name}
-                </dd>
-              </div>
-              <div className='px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0'>
-                <dt className='text-sm font-medium leading-6 text-gray-900'>License Plate</dt>
-                <dd className='mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0'>
-                  {this.props.items[0].licensePlate}
-                </dd>
-              </div>
-              <div className='px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0'>
-                <dt className='text-sm font-medium leading-6 text-gray-900'>Location</dt>
-                <dd className='mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0'>
-                  {
-                    locations?.data.find(
-                      location => location.uid === this.props.items[0].location?.uid,
-                    )?.name
-                  }
-                </dd>
-              </div>
-              <div className='px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0'>
-                <dt className='text-sm font-medium leading-6 text-gray-900'>Make</dt>
-                <dd className='mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0'>
-                  {this.props.items[0].make}
-                </dd>
-              </div>
-              <div className='px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0'>
-                <dt className='text-sm font-medium leading-6 text-gray-900'>Brand</dt>
-                <dd className='mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0'>
-                  {this.props.items[0].brand}
-                </dd>
-              </div>
-              <div className='px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0'>
-                <dt className='text-sm font-medium leading-6 text-gray-900'>Year</dt>
-                <dd className='mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0'>
-                  {this.props.items[0].year}
-                </dd>
-              </div>
-              <div className='px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0'>
-                <dt className='text-sm font-medium leading-6 text-gray-900'>Capacity</dt>
-                <dd className='mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0'>
-                  {this.props.items[0].capacity}
-                </dd>
-              </div>
+  const ViewTruck = ({ item, locations }) => {
+    if (!item) return <span>Item not found</span>
 
-              <div className='action-icons flex'>
-                {actionItems.map((item, index) => {
-                  return (
-                    <span className={'m-1'} key={index}>
-                      {item}
-                    </span>
-                  )
-                })}
-              </div>
-            </dl>
-          </div>
+    return (
+      <div>
+        <div className='mt-6 border-t border-gray-100 px-2'>
+          <dl className='divide-y divide-gray-100'>
+            <div className='px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0'>
+              <dt className='text-sm font-medium leading-6 text-gray-900'>Name</dt>
+              <dd className='mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0'>
+                {item.name}
+              </dd>
+            </div>
+            <div className='px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0'>
+              <dt className='text-sm font-medium leading-6 text-gray-900'>License Plate</dt>
+              <dd className='mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0'>
+                {item.licensePlate}
+              </dd>
+            </div>
+            <div className='px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0'>
+              <dt className='text-sm font-medium leading-6 text-gray-900'>Location</dt>
+              <dd className='mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0'>
+                <Link to={`/locations/${item.location?.uid}`}>
+                  {locations?.filter(i => i.uid === item.location.uid)[0].name ||
+                    item.location?.name ||
+                    item.location?.uid}
+                </Link>
+              </dd>
+            </div>
+            <div className='px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0'>
+              <dt className='text-sm font-medium leading-6 text-gray-900'>Make</dt>
+              <dd className='mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0'>
+                {item.make}
+              </dd>
+            </div>
+            <div className='px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0'>
+              <dt className='text-sm font-medium leading-6 text-gray-900'>Brand</dt>
+              <dd className='mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0'>
+                {item.brand}
+              </dd>
+            </div>
+            <div className='px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0'>
+              <dt className='text-sm font-medium leading-6 text-gray-900'>Year</dt>
+              <dd className='mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0'>
+                {item.year}
+              </dd>
+            </div>
+            <div className='px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0'>
+              <dt className='text-sm font-medium leading-6 text-gray-900'>Capacity</dt>
+              <dd className='mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0'>
+                {item.capacity}
+              </dd>
+            </div>
+          </dl>
         </div>
-      )
-    }
+      </div>
+    )
   }
 
   return (
     <div>
       <h1 className='text-2xl font-bold bg-blue-500 text-white p-4 flex justify-between items-center'>
         Trucks
-        <CreateTruckForm
-          onSubmit={handleCreateLocation}
-          data={{}}
-          locationsList={locations?.data ?? []}
-        />
+        {params.uid ? (
+          <ActionButtons handlers={{ edit: editHandler, delete: handleDelete }} item={items[0]} />
+        ) : (
+          <CreateTruckForm
+            onSubmit={handleCreateLocation}
+            data={{}}
+            locationsList={locations?.data ?? []}
+          />
+        )}
       </h1>
       {params.uid ? (
-        <ViewTruck
-          items={items}
-          actions={['edit', ...(accessor.claims.includes('trucks.all') ? ['delete'] : [])]}
-          handlers={{
-            edit: editHandler,
-            delete: handleDelete,
-          }}
-        />
+        <ViewTruck item={items[0]} locations={locations?.data ?? []} />
       ) : (
         <Table
           columns={columns}
           items={items}
-          actions={['edit', ...(accessor.claims.includes('trucks.all') ? ['delete'] : [])]}
+          locations={locations?.data ?? []}
+          actions={
+            ['edit', ...(accessor.claims.includes('trucks.all') ? ['delete'] : [])] as ActionItem[]
+          }
           handlers={{
             edit: editHandler,
             delete: handleDelete,

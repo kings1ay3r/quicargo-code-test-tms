@@ -72,7 +72,6 @@ const DropdownUser = () => {
         </svg>
       </Link>
 
-      {/* <!-- Dropdown Start --> */}
       <div
         ref={dropdown}
         onFocus={() => setDropdownOpen(true)}
@@ -105,7 +104,6 @@ const DropdownUser = () => {
           Log Out
         </button>
       </div>
-      {/* <!-- Dropdown End --> */}
     </div>
   )
 }

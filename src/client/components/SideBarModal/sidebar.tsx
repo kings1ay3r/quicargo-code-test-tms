@@ -6,7 +6,7 @@ type SideBarProps = {
   setOpen?: (v: boolean) => void
   onClose?: (v: boolean) => void
   title?: string
-  children?: React.ReactNode
+  children?: React.ReactNode | void
 }
 export default function Sidebar({
   open = false,

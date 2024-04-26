@@ -15,12 +15,12 @@ interface TableProps {
   actions: ActionItem[]
   columns: Column[]
   handlers: {
-    [K in ActionItem]: Function
+    [K in ActionItem]?: Function
   }
   items: Item[]
 }
 
-type ActionItem = 'view' | 'edit' | 'delete'
+export type ActionItem = 'view' | 'edit' | 'delete'
 
 const ViewButton = ({ link }) => {
   return (
@@ -43,10 +43,14 @@ const ViewButton = ({ link }) => {
     </Link>
   )
 }
-const EditButtonWithModal = ({ handler, data }) => {
+type EditButtonProps = {
+  handler: (data: Record<string, any>, handler: () => void) => void
+  data: Record<string, any>
+}
+const EditButtonWithModal = ({ handler, data }: EditButtonProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false)
 
-  const handleOpenModal = e => {
+  const handleOpenModal = (e: event) => {
     e.preventDefault()
     setIsModalOpen(true)
   }
@@ -58,7 +62,7 @@ const EditButtonWithModal = ({ handler, data }) => {
   const editForm = handler(data, handleCloseModal)
   return (
     <>
-      <Link onClick={handleOpenModal}>
+      <Link onClick={handleOpenModal} to={'#'}>
         <svg
           xmlns='http://www.w3.org/2000/svg'
           width='24'
@@ -83,7 +87,8 @@ const EditButtonWithModal = ({ handler, data }) => {
   )
 }
 
-const DeleteButton = ({ onDelete }) => {
+type DeleteButtonProps = { onDelete: () => void }
+const DeleteButton = ({ onDelete }: DeleteButtonProps) => {
   return (
     <button onClick={onDelete} title={'Delete'}>
       <svg

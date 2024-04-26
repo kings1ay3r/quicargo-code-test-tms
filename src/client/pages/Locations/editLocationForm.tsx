@@ -15,9 +15,15 @@ interface LocationFormModalProps {
   isOpen: boolean
   onRequestClose: () => void
   onSubmit: (data: LocationFormInputs) => void
+  data: LocationFormInputs
+  handleCloseModal: () => void
 }
 
-const Form = ({ onSubmit, initialValues = {} }) => {
+type FormInputs = {
+  onSubmit: (data: LocationFormInputs) => void
+  initialValues: LocationFormInputs
+}
+const Form = ({ onSubmit, initialValues }: FormInputs) => {
   const schema = updateLocationSchema()
   const {
     register,
@@ -44,7 +50,7 @@ const Form = ({ onSubmit, initialValues = {} }) => {
           {...register('name')}
           className='w-full px-3 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-1 focus:ring-blue-500'
         />
-        {errors.name && <p className='text-red-500 text-xs'>{errors.name}</p>}
+        {errors.name && <p className='text-red-500 text-xs'>{<>errors.name</>}</p>}
       </div>
       <div className='flex items-center'>
         <label htmlFor='address' className='text-sm font-medium mr-2'>
@@ -55,7 +61,7 @@ const Form = ({ onSubmit, initialValues = {} }) => {
           {...register('address')}
           className='w-full px-3 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-1 focus:ring-blue-500'
         />
-        {errors.address && errors.address}
+        {errors.address && <p className='text-red-500 text-xs'>{<>errors.address</>}</p>}
       </div>
       <div className='flex items-center'>
         <label htmlFor='lattitude' className='text-sm font-medium mr-2'>
@@ -63,12 +69,10 @@ const Form = ({ onSubmit, initialValues = {} }) => {
         </label>
         <input
           type='text'
-          {...register('lattitude', {
-            validate: value => !isNaN(value) || 'Latitude must be a number',
-          })}
+          {...register('lattitude', {})}
           className='w-full px-3 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-1 focus:ring-blue-500'
         />
-        {errors.latitude && <p className='text-red-500 text-xs'>{errors.latitude}</p>}
+        {errors.lattitude && <p className='text-red-500 text-xs'>{<>errors.lattitude</>}</p>}
       </div>
       <div className='flex items-center'>
         <label htmlFor='longitude' className='text-sm font-medium mr-2'>
@@ -76,12 +80,10 @@ const Form = ({ onSubmit, initialValues = {} }) => {
         </label>
         <input
           type='text'
-          {...register('longitude', {
-            validate: value => !isNaN(value) || 'Longitude must be a number',
-          })}
+          {...register('longitude', {})}
           className='w-full px-3 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-1 focus:ring-blue-500'
         />
-        {errors.longitude && <p className='text-red-500 text-xs'>{errors.longitude}</p>}
+        {errors.longitude && <p className='text-red-500 text-xs'>{<>errors.longitude</>}</p>}
       </div>
       <div className='flex justify-center'>
         <button
@@ -104,11 +106,11 @@ const EditLocationForm: React.FC<LocationFormModalProps> = ({
     <>
       <Form
         initialValues={data}
-        onSubmit={data => {
+        onSubmit={(data: LocationFormInputs) => {
           onSubmit(data)
           handleCloseModal()
         }}
-      />
+      ></Form>
     </>
   )
 }
